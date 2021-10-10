@@ -7,6 +7,9 @@ use audunru\ConfigSecrets\Helpers\ConfigurationHelper;
 
 class UpdateConfiguration
 {
+    /**
+     * @SuppressWarnings("unused")
+     */
     public function __construct(private SecretGateway $gateway)
     {
     }
