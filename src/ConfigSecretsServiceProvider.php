@@ -31,7 +31,7 @@ class ConfigSecretsServiceProvider extends PackageServiceProvider
     /**
      * Register all dependencies and update configuration with secrets.
      */
-    public static function registerAndUpdateConfiguration(Application $app): void
+    public static function registerAndUpdate(Application $app): void
     {
         self::registerDependencies($app);
         self::updateConfiguration($app);
