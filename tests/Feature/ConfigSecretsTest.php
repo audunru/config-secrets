@@ -37,6 +37,25 @@ class ConfigSecretsTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
 
+    public function testItOverridesConfigurationWithTwoSecrets()
+    {
+        config([
+            'config-secrets.configuration-overrides' => [
+                'APP_KEY'     => 'app.key',
+                'DB_PASSWORD' => 'database.connections.mysql.password',
+            ],
+        ]);
+
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn'], ['ARN' => 'other-arn']]]);
+            $mock->shouldReceive('getSecretValue')->twice()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}'], ['SecretString' => '{"APP_KEY":"some-app-key"}']);
+        });
+        App::make(UpdateConfiguration::class)->updateConfiguration();
+
+        $this->assertEquals('some-app-key', config('app.key'));
+        $this->assertEquals('secret-password', config('database.connections.mysql.password'));
+    }
+
     public function testItOverridesConfigurationOnlyOnce()
     {
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
