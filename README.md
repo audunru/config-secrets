@@ -39,7 +39,7 @@ In your Laravel application:
 
 ## Step 4: Update bootstrap/app.php
 
-Add the following lines to `bootstrap/app.php`:
+Add the following lines to `bootstrap/app.php` (recommended but not required):
 
 ```php
 
@@ -50,7 +50,7 @@ use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
 $app->afterBootstrapping(LoadConfiguration::class, fn (Application $app) => ConfigSecretsServiceProvider::registerAndUpdate($app));
 ```
 
-Loading `UpdateConfiguration` in `bootstrap/app.php` instead of in a service provider ensures that you can override (probably) any configuration value. If you do not update `bootstrap/app.php`, you will not be able to override config values that are used by service providers that run before this package's own service provider. For instance, Laravel's `RedisServiceProvider` uses the configuration values when it's registered. Without the code above, you won't be able to override the Redis password.
+Loading the secrets in `bootstrap/app.php` instead of in a service provider ensures that you can override (probably) any configuration value. If you do not do this, you will not be able to override config values that are used by service providers that run before this package's own service provider. For instance, Laravel's `RedisServiceProvider` uses the available configuration values when it is registered. Without the code above, you won't be able to override the Redis password.
 
 ## Step 4: Enable configuration cache
 
