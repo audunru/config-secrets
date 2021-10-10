@@ -42,12 +42,16 @@ class ConfigSecretsServiceProvider extends PackageServiceProvider
      */
     public static function registerDependencies(Application $app): void
     {
+        if ($app->bound(UpdateConfiguration::class)) {
+            return;
+        }
+
         $gateway = ConfigurationHelper::getDefaultGateway();
-        $app->singletonIf($gateway);
+        $app->singleton($gateway);
+        $app->singleton(UpdateConfiguration::class);
         $app->when(UpdateConfiguration::class)
             ->needs(SecretGateway::class)
             ->give($gateway);
-        $app->singletonIf(UpdateConfiguration::class);
     }
 
     /**
