@@ -4,8 +4,26 @@ namespace audunru\ConfigSecrets\Helpers;
 
 use Illuminate\Support\Collection;
 
-class SecretsHelper
+class ConfigurationHelper
 {
+    /**
+     * Get class for the configured default gateway.
+     */
+    public static function getDefaultGateway(): string
+    {
+        $defaultGateway = config('config-secrets.default');
+
+        return config(sprintf('config-secrets.%s.gateway', $defaultGateway));
+    }
+
+    /**
+     * Check if secrets are enabled in this environment.
+     */
+    public static function isEnabled(): bool
+    {
+        return in_array(config('app.env'), config('config-secrets.enabled-environments', []));
+    }
+
     /**
      * Update configuration with secrets.
      */

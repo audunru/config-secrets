@@ -66,14 +66,14 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Service
+        | Gateway
         |--------------------------------------------------------------------------
         |
-        | Class that retrieves and updates secrets.
+        | Class that retrieves secrets from 3rd party service.
         |
         */
 
-        'service' => AwsSecretsManager::class,
+        'gateway' => AwsSecretsManager::class,
     ],
 
     /*

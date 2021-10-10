@@ -2,15 +2,14 @@
 
 namespace audunru\ConfigSecrets\Tests\Feature;
 
-use audunru\ConfigSecrets\Services\UpdateConfiguration;
+use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
 use audunru\ConfigSecrets\Tests\TestCase;
 use Exception;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\App;
 use JsonException;
 use Mockery\MockInterface;
 
-class ConfigSecretsTest extends TestCase
+class ServiceProviderTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -32,7 +31,7 @@ class ConfigSecretsTest extends TestCase
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
@@ -50,7 +49,7 @@ class ConfigSecretsTest extends TestCase
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn'], ['ARN' => 'other-arn']]]);
             $mock->shouldReceive('getSecretValue')->twice()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}'], ['SecretString' => '{"APP_KEY":"some-app-key"}']);
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('some-app-key', config('app.key'));
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
@@ -62,8 +61,8 @@ class ConfigSecretsTest extends TestCase
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+        ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
@@ -80,7 +79,7 @@ class ConfigSecretsTest extends TestCase
             })->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
@@ -99,7 +98,7 @@ class ConfigSecretsTest extends TestCase
             })->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
@@ -114,7 +113,7 @@ class ConfigSecretsTest extends TestCase
             $mock->shouldNotReceive('listSecrets');
             $mock->shouldNotReceive('getSecretValue');
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('original-password', config('database.connections.mysql.password'));
     }
@@ -131,7 +130,7 @@ class ConfigSecretsTest extends TestCase
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
         $this->assertEquals('secret-password', config('database.connections.other-mysql.password'));
@@ -145,7 +144,7 @@ class ConfigSecretsTest extends TestCase
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andThrow(new Exception('some-message'));
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
     }
 
     public function testItRethrowsJsonException()
@@ -157,7 +156,7 @@ class ConfigSecretsTest extends TestCase
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '"DB_PASSWORD":"secret-password"}']);
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
     }
 
     public function testItRethrowsExceptionInGetSecretValue()
@@ -169,6 +168,6 @@ class ConfigSecretsTest extends TestCase
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andThrow(new Exception('some-message'));
         });
-        App::make(UpdateConfiguration::class)->updateConfiguration();
+        ConfigSecretsServiceProvider::updateConfiguration(app());
     }
 }

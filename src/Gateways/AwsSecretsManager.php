@@ -26,7 +26,7 @@ class AwsSecretsManager implements SecretGateway
     protected const JSON_DECODE_DEPTH = 2;
 
     /**
-     * Only the secret with this name will be retrieved.
+     * Only secret with this name will be retrieved.
      */
     protected string $secretName;
 
