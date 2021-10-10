@@ -17,7 +17,7 @@ class UpdateConfiguration
     /**
      * Load secrets and update configuration.
      */
-    public function updateConfiguration(): void
+    public function __invoke(): void
     {
         logger()->info(sprintf('Retrieving secrets using %s', get_class($this->gateway)));
         $secrets = $this->gateway->getSecrets();

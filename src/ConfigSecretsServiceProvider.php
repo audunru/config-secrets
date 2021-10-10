@@ -56,7 +56,7 @@ class ConfigSecretsServiceProvider extends PackageServiceProvider
     public static function updateConfiguration(Application $app): void
     {
         if (! $app->configurationIsCached() && ConfigurationHelper::isEnabled() && ! $app->resolved(UpdateConfiguration::class)) {
-            $app->make(UpdateConfiguration::class)->updateConfiguration();
+            ($app->make(UpdateConfiguration::class))();
         }
     }
 }
