@@ -4,7 +4,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/audunru/config-secrets/badge.svg?branch=master)](https://coveralls.io/github/audunru/config-secrets?branch=master)
 [![StyleCI](https://github.styleci.io/repos/415400658/shield?branch=master)](https://github.styleci.io/repos/415400658)
 
-Retrieve secrets from AWS Secrets Manager and use them as config variables in Laravel.
+Retrieve secrets from AWS Secrets Manager and override config variables in Laravel.
+
+As an example, you could store your database password in AWS Secrets Manager instead of your .env file. This package does not modify your .env file or config files. Instead, the configuration values are set using Laravel's `config()` helper right after your application has started.
 
 # Installation
 
