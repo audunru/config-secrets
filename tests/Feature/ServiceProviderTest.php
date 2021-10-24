@@ -136,6 +136,36 @@ class ServiceProviderTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.other-mysql.password'));
     }
 
+    public function testConfigurationOverridesSupportsBase64()
+    {
+        config([
+            'config-secrets.configuration-overrides' => [
+                'PASSPORT_PUBLIC_KEY' => 'passport.public_key',
+            ],
+        ]);
+
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
+            $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"PASSPORT_PUBLIC_KEY":"base64:LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUExSVkrcDZQckNpVk83QllTU2hUdApvYnRaYzI0cmczemNVZElGbTB5MFJ6RC85VWNNZzl1M1AyUEZBMWI5MTJqZDRReXRoU3VxMm9xbTBTekozU2dOCjZQVkltQlh1WXBWdkx0bUp1ODRQTG9Bd1FRQ0hUYWJvTWJGa3Q0RmZseWVqemhObG1aWWR4N2l1UmNlV2N2QjAKWit4R0dKNlZkQnVlS2dsZGNsWVdzOExIY0taSng3ajR3d21pSGZSRjFpUWR5ZTlMcnFEdFhHZ05GZktWRW5SZwpVdnRPQVhYQmFNZzVabVRkM1hVcUdEYnpvdVFwZWRrcmwyMkt2TlhvS1VqNGEraTJOOVRSYVU3SnRURUVzSDZECkY4QjM4Z1gwQjZlYW4rN21zL1YzMTF2Nm9TUlY0Zm5Kdk9lTmRLODg3cEs1dWZGVUZyckpvWWsrdC83WXNlSDUKR3VxaS9kZ2J1TnpRRitPQ0RqQitnNEh5Nnk1aVcrTDk0Q201WCswYkNwTllpRzRqQXVKSW5PNXhsNERRZytoNQpFSzdEclJLUkxTa3V1UnJHc1ZpeDBNdmtpcUZxL2Z2enc1SnFMeThLZG92bEUrSzFza21tcFdYV214QmVKU2xXCkNUUHJNcHprdkFrNVNPbFlLZ0Nyc1JGbUxsMVBvS0ZOOUE0YnBFZ2RhWWsxMFpyVW9WeHBTNHkvZ0U1T2VZUXYKcDFFR3piWE84c2l6cUtJbEZmNHpHa3JoVnNTaHp1dk50QXpJU2JTQ3JxcE9aTjk3N29STkRhYkpOM0JzYTY5awpFQjF0cG1aRmFlZ2dGem9EOHBWYm5yL3Qwd0YvTndmRGFtbVhsZEZFbi8vd05iZjJmTjZjNWlrQ3RGaXRYVFpjCmQ3blBNTytUbmJLdExDM3drdjR5Y0pFQ0F3RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ=="}']);
+        });
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA1IY+p6PrCiVO7BYSShTt
+obtZc24rg3zcUdIFm0y0RzD/9UcMg9u3P2PFA1b912jd4QythSuq2oqm0SzJ3SgN
+6PVImBXuYpVvLtmJu84PLoAwQQCHTaboMbFkt4FflyejzhNlmZYdx7iuRceWcvB0
+Z+xGGJ6VdBueKgldclYWs8LHcKZJx7j4wwmiHfRF1iQdye9LrqDtXGgNFfKVEnRg
+UvtOAXXBaMg5ZmTd3XUqGDbzouQpedkrl22KvNXoKUj4a+i2N9TRaU7JtTEEsH6D
+F8B38gX0B6ean+7ms/V311v6oSRV4fnJvOeNdK887pK5ufFUFrrJoYk+t/7YseH5
+Guqi/dgbuNzQF+OCDjB+g4Hy6y5iW+L94Cm5X+0bCpNYiG4jAuJInO5xl4DQg+h5
+EK7DrRKRLSkuuRrGsVix0MvkiqFq/fvzw5JqLy8KdovlE+K1skmmpWXWmxBeJSlW
+CTPrMpzkvAk5SOlYKgCrsRFmLl1PoKFN9A4bpEgdaYk10ZrUoVxpS4y/gE5OeYQv
+p1EGzbXO8sizqKIlFf4zGkrhVsShzuvNtAzISbSCrqpOZN977oRNDabJN3Bsa69k
+EB1tpmZFaeggFzoD8pVbnr/t0wF/NwfDammXldFEn//wNbf2fN6c5ikCtFitXTZc
+d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
+-----END PUBLIC KEY-----', config('passport.public_key'));
+    }
+
     public function testItRethrowsExceptionInListSecrets()
     {
         $this->expectException(Exception::class);
