@@ -33,6 +33,9 @@ class ConfigurationHelper
 
         $secrets->intersectByKeys($overrides)
             ->each(function ($value, $key) use ($overrides) {
+                if (str_starts_with($value, 'base64:')) {
+                    $value = base64_decode(substr($value, 7));
+                }
                 self::updateConfigurationValue($key, $value, $overrides);
             });
     }

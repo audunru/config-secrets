@@ -31,7 +31,7 @@ Currently this package supports retrieving secrets from AWS Secrets Manager.
 In AWS Secrets Manager:
 
 1. Create a new secret.
-2. Set the secret value to any number of key/value pairs.
+2. Set the secret value to any number of key/value pairs. You can prefix the secret value with `base64:` followed by a base64 encoded string. This is useful for private and public keys, for instance.
 
 In your Laravel application:
 
