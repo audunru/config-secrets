@@ -93,8 +93,8 @@ class ServiceProviderTest extends TestCase
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->withArgs(function ($arg) {
-                return 'tag-key' === Arr::get($arg, 'Filters.0.Key') && 'some-tag-key' === Arr::get($arg, 'Filters.0.Values.0') &&
-                    'tag-value' === Arr::get($arg, 'Filters.1.Key') && 'some-tag-value' === Arr::get($arg, 'Filters.1.Values.0');
+                return 'tag-key' === Arr::get($arg, 'Filters.0.Key') && 'some-tag-key' === Arr::get($arg, 'Filters.0.Values.0')
+                    && 'tag-value' === Arr::get($arg, 'Filters.1.Key') && 'some-tag-value' === Arr::get($arg, 'Filters.1.Values.0');
             })->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
