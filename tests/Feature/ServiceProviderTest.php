@@ -4,9 +4,7 @@ namespace audunru\ConfigSecrets\Tests\Feature;
 
 use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
 use audunru\ConfigSecrets\Tests\TestCase;
-use Exception;
 use Illuminate\Support\Arr;
-use JsonException;
 use Mockery\MockInterface;
 
 class ServiceProviderTest extends TestCase
@@ -93,8 +91,8 @@ class ServiceProviderTest extends TestCase
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->withArgs(function ($arg) {
-                return 'tag-key' === Arr::get($arg, 'Filters.0.Key') && 'some-tag-key' === Arr::get($arg, 'Filters.0.Values.0') &&
-                    'tag-value' === Arr::get($arg, 'Filters.1.Key') && 'some-tag-value' === Arr::get($arg, 'Filters.1.Values.0');
+                return 'tag-key' === Arr::get($arg, 'Filters.0.Key') && 'some-tag-key' === Arr::get($arg, 'Filters.0.Values.0')
+                    && 'tag-value' === Arr::get($arg, 'Filters.1.Key') && 'some-tag-value' === Arr::get($arg, 'Filters.1.Values.0');
             })->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
@@ -168,18 +166,18 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
 
     public function testItRethrowsExceptionInListSecrets()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->expectExceptionMessage('some-message');
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
-            $mock->shouldReceive('listSecrets')->once()->andThrow(new Exception('some-message'));
+            $mock->shouldReceive('listSecrets')->once()->andThrow(new \Exception('some-message'));
         });
         ConfigSecretsServiceProvider::updateConfiguration(app());
     }
 
     public function testItRethrowsJsonException()
     {
-        $this->expectException(JsonException::class);
+        $this->expectException(\JsonException::class);
         $this->expectExceptionMessage('Syntax error');
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
@@ -191,12 +189,12 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
 
     public function testItRethrowsExceptionInGetSecretValue()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->expectExceptionMessage('some-message');
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
-            $mock->shouldReceive('getSecretValue')->once()->andThrow(new Exception('some-message'));
+            $mock->shouldReceive('getSecretValue')->once()->andThrow(new \Exception('some-message'));
         });
         ConfigSecretsServiceProvider::updateConfiguration(app());
     }
