@@ -4,7 +4,9 @@ namespace audunru\ConfigSecrets\Gateways;
 
 use audunru\ConfigSecrets\Contracts\SecretGateway;
 use Aws\SecretsManager\SecretsManagerClient;
+use Exception;
 use Illuminate\Support\Collection;
+use JsonException;
 
 class AwsSecretsManager implements SecretGateway
 {
@@ -64,7 +66,7 @@ class AwsSecretsManager implements SecretGateway
                 'Filters'    => $this->getFilters(),
                 'MaxResults' => self::MAX_SECRETS,
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             logger()->alert('Error retrieving secrets from AWS Secrets Manager', ['exception', $exception]);
             throw $exception;
         }
@@ -77,10 +79,10 @@ class AwsSecretsManager implements SecretGateway
                     ]);
 
                     return json_decode($secretString, true, self::JSON_DECODE_DEPTH, JSON_THROW_ON_ERROR);
-                } catch (\JsonException $exception) {
+                } catch (JsonException $exception) {
                     logger()->alert('Error decoding response from AWS Secrets Manager', ['exception', $exception]);
                     throw $exception;
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     logger()->alert('Error retrieving secret value from AWS Secrets Manager', ['exception', $exception]);
                     throw $exception;
                 }

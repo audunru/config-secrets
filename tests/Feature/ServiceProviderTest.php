@@ -4,7 +4,9 @@ namespace audunru\ConfigSecrets\Tests\Feature;
 
 use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
 use audunru\ConfigSecrets\Tests\TestCase;
+use Exception;
 use Illuminate\Support\Arr;
+use JsonException;
 use Mockery\MockInterface;
 
 class ServiceProviderTest extends TestCase
@@ -166,18 +168,18 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
 
     public function testItRethrowsExceptionInListSecrets()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('some-message');
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
-            $mock->shouldReceive('listSecrets')->once()->andThrow(new \Exception('some-message'));
+            $mock->shouldReceive('listSecrets')->once()->andThrow(new Exception('some-message'));
         });
         ConfigSecretsServiceProvider::updateConfiguration(app());
     }
 
     public function testItRethrowsJsonException()
     {
-        $this->expectException(\JsonException::class);
+        $this->expectException(JsonException::class);
         $this->expectExceptionMessage('Syntax error');
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
@@ -189,12 +191,12 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
 
     public function testItRethrowsExceptionInGetSecretValue()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('some-message');
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
-            $mock->shouldReceive('getSecretValue')->once()->andThrow(new \Exception('some-message'));
+            $mock->shouldReceive('getSecretValue')->once()->andThrow(new Exception('some-message'));
         });
         ConfigSecretsServiceProvider::updateConfiguration(app());
     }
