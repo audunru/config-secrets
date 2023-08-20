@@ -92,4 +92,24 @@ return [
         // A single secret can override multiple configuration values if an array of configuration variables is used.
         // 'REDIS_PASSWORD' => ['database.redis.default.password', 'database.redis.cache.password'],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Environment overrides
+    |--------------------------------------------------------------------------
+    |
+    | Override configuration values in specific environments.
+    |
+    | Do not use this for secrets!
+    |
+    */
+    'environment-overrides' => [
+        // logging.default will be set to 'stack' in the local (development) environment, and to 'syslog' in production
+        // 'local' => [
+        //     'logging.default' => 'stack',
+        // ],
+        // 'production' => [
+        //     'logging.default' => 'syslog',
+        // ],
+    ],
 ];

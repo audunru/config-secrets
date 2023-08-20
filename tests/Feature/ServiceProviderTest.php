@@ -17,10 +17,18 @@ class ServiceProviderTest extends TestCase
 
         config([
             'database.connections.mysql.password'    => 'original-password',
+            'logging.default'                        => 'stack',
             'config-secrets.aws.region'              => 'some-region',
             'config-secrets.enabled-environments'    => ['testing'],
             'config-secrets.configuration-overrides' => [
                 'DB_PASSWORD' => 'database.connections.mysql.password',
+                'DB_HOST'     => 'database.connections.mysql.host',
+                'LOG_CHANNEL' => 'logging.default',
+            ],
+            'config-secrets.environment-overrides' => [
+                'testing' => [
+                    'logging.default' => 'syslog',
+                ],
             ],
         ]);
     }
@@ -199,5 +207,27 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
             $mock->shouldReceive('getSecretValue')->once()->andThrow(new Exception('some-message'));
         });
         ConfigSecretsServiceProvider::updateConfiguration(app());
+    }
+
+    public function testItOverridesEnvironmentConfiguration()
+    {
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
+            $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
+        });
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('syslog', config('logging.default'));
+    }
+
+    public function testItOverridesEnvironmentConfigurationWithSecrets()
+    {
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
+            $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"LOG_CHANNEL":"papertrail"}']);
+        });
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('papertrail', config('logging.default'));
     }
 }
