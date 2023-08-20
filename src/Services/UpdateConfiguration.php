@@ -23,6 +23,7 @@ class UpdateConfiguration
         $secrets = $this->gateway->getSecrets();
         logger()->info(sprintf('Retrieved %u secrets', $secrets->count()));
 
+        ConfigurationHelper::updateEnvironmentConfiguration();
         ConfigurationHelper::updateConfiguration($secrets);
     }
 }
