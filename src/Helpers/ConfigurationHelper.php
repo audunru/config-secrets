@@ -55,4 +55,27 @@ class ConfigurationHelper
             config([$overrides[$secretKey] => $secretValue]);
         }
     }
+
+    /**
+     * Get overrides for current environment.
+     */
+    private static function getEnvironmentOverrides(): Collection
+    {
+        $overrides = config('config-secrets.environment-overrides.'.config('app.env'), []);
+
+        return collect($overrides);
+    }
+
+    /**
+     * Update configuration for current environment.
+     */
+    public static function updateEnvironmentConfiguration(): void
+    {
+        $overrides = self::getEnvironmentOverrides();
+
+        collect($overrides)
+            ->each(function (string $value, string $key) {
+                config([$key => $value]);
+            });
+    }
 }

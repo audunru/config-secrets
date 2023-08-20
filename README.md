@@ -39,6 +39,8 @@ In your Laravel application:
 2. Set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in `.env` or [use any of the other options that AWS SDK offers](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials.html)
 3. Map secret keys to Laravel configuration keys under `configuration-overrides` in `config-secrets.php`
 
+This package also supports overriding configuration values per environment. Look in `config-secrets.php` for an example. This allows you to keep environment specific configuration values in source control. For obvious reasons, do not use environment overrides for values that should be kept secret.
+
 ## Step 4: Update bootstrap/app.php
 
 Add the following lines to `bootstrap/app.php` (recommended but not required):
