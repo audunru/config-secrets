@@ -56,7 +56,7 @@ $app->afterBootstrapping(LoadConfiguration::class, fn (Application $app) => Conf
 
 Loading the secrets in `bootstrap/app.php` instead of in a service provider ensures that you can override (probably) any configuration value. If you do not do this, you will not be able to override config values that are used by service providers that run before this package's own service provider. For instance, Laravel's `RedisServiceProvider` uses the available configuration values when it is registered. Without the code above, you won't be able to override the Redis password.
 
-## Step 4: Enable configuration cache
+## Step 5: Enable configuration cache
 
 It is _very important_ that you cache your Laravel configuration with `php artisan config:cache` or `php artisan optimize` when you use this package. If not, secrets will be retrieved for every request. This process is slow and costly!
 
