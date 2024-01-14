@@ -2,6 +2,7 @@
 
 namespace audunru\ConfigSecrets\Tests\Unit;
 
+use audunru\ConfigSecrets\ConfigProviders\AwsConfigProvider;
 use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
 use Exception;
 use Illuminate\Support\Arr;
@@ -17,6 +18,7 @@ class AwsConfigProviderTest extends TestCase
 
         config([
             'database.connections.mysql.password'                  => 'original-password',
+            'config-secrets.providers.aws.provider'                => AwsConfigProvider::class,
             'config-secrets.providers.aws.configuration-overrides' => [
                 'database.connections.mysql.password' => 'DB_PASSWORD',
             ],

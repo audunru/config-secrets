@@ -2,6 +2,7 @@
 
 namespace audunru\ConfigSecrets\Tests\Unit;
 
+use audunru\ConfigSecrets\ConfigProviders\ArrayConfigProvider;
 use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
 use Orchestra\Testbench\TestCase;
 
@@ -13,6 +14,7 @@ class ArrayConfigProviderTest extends TestCase
 
         config([
             'logging.default'                           => 'stack',
+            'config-secrets.providers.array.provider'   => ArrayConfigProvider::class,
             'config-secrets.environments.testing.array' => [
                 'logging.default' => 'syslog',
             ],

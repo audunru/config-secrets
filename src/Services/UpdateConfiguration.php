@@ -2,8 +2,6 @@
 
 namespace audunru\ConfigSecrets\Services;
 
-use audunru\ConfigSecrets\ConfigProviders\ArrayConfigProvider;
-use audunru\ConfigSecrets\ConfigProviders\AwsConfigProvider;
 use audunru\ConfigSecrets\Contracts\ConfigProvider;
 use Exception;
 
@@ -14,13 +12,6 @@ class UpdateConfiguration
      */
     public function __invoke(): void
     {
-        // logger()->info(sprintf('Retrieving secrets using %s', get_class($this->gateway)));
-        // $secrets = $this->gateway->getSecrets();
-        // logger()->info(sprintf('Retrieved %u secrets', $secrets->count()));
-
-        // ConfigurationHelper::updateEnvironmentConfiguration();
-        // ConfigurationHelper::updateConfiguration($secrets);
-
         $environmentConfig = $this->getEnvironmentConfig();
 
         foreach ($environmentConfig as $providerName => $options) {
@@ -31,9 +22,11 @@ class UpdateConfiguration
 
             $providerOptions = $this->getProviderOptions($providerName);
             $provider = $this->getProvider($providerName);
-            $overrides = $provider->getOverrides(array_merge_recursive($providerOptions, $options));
+            $overrides = $this->resolveProvider($provider)->getOverrides(array_merge_recursive($providerOptions, $options));
 
             $this->updateConfiguration($overrides);
+
+            logger()->info(sprintf('ConfigProvider "%s" supplied %u configuration %s', $providerName, count($overrides), count($overrides) > 1 ? 'values' : 'value'));
         }
     }
 
@@ -47,17 +40,20 @@ class UpdateConfiguration
         return config('config-secrets.providers.'.$providerName, []);
     }
 
-    private function getProvider(string $providerName): ConfigProvider
+    private function getProvider(string $providerName): string
     {
-        if ('array' === $providerName) {
-            return app()->make(ArrayConfigProvider::class); // TODO: Hent fra config
+        $provider = config('config-secrets.providers.'.$providerName.'.provider');
+
+        if (is_null($provider)) {
+            throw new Exception('No provider named '.$providerName.' exists'); // @todo test
         }
 
-        if ('aws' === $providerName) {
-            return app()->make(AwsConfigProvider::class);
-        }
+        return $provider;
+    }
 
-        throw new Exception('No provider named '.$providerName.' exists');
+    private function resolveProvider(string $provider): ConfigProvider
+    {
+        return app()->make($provider);
     }
 
     private function updateConfiguration(array $overrides): void

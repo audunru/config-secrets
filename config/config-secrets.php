@@ -1,5 +1,8 @@
 <?php
 
+use audunru\ConfigSecrets\ConfigProviders\ArrayConfigProvider;
+use audunru\ConfigSecrets\ConfigProviders\AwsConfigProvider;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -11,10 +14,12 @@ return [
 
     'providers' => [
         'array' => [
+            'provider' => ArrayConfigProvider::class,
             // A configuration key ("dot notation" is used) will have its value replaced
             // 'logging.default' => 'stack'
         ],
         'aws'   => [
+            'provider' => AwsConfigProvider::class,
             /*
             |--------------------------------------------------------------------------
             | AWS Region where secrets are stored
