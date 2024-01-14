@@ -18,9 +18,11 @@ class AwsConfigProviderTest extends TestCase
 
         config([
             'database.connections.mysql.password'                  => 'original-password',
-            'config-secrets.providers.aws.provider'                => AwsConfigProvider::class,
-            'config-secrets.providers.aws.configuration-overrides' => [
-                'database.connections.mysql.password' => 'DB_PASSWORD',
+            'config-secrets.providers.aws'                         => [
+                'provider'                => AwsConfigProvider::class,
+                'configuration-overrides' => [
+                    'database.connections.mysql.password' => 'DB_PASSWORD',
+                ],
             ],
             'config-secrets.environments.testing' => [
                 'aws',
@@ -37,6 +39,26 @@ class AwsConfigProviderTest extends TestCase
         ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
+    }
+
+    public function testItOverridesConfigurationWithEnvironmentValues()
+    {
+        config([
+            'database.connections.mysql.password'                     => 'original-password',
+            'config-secrets.environments.testing.aws'                 => [
+                'configuration-overrides' => [
+                    'database.connections.mysql.password' => 'DATABASE_PASSWORD',
+                ],
+            ],
+        ]);
+
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
+            $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DATABASE_PASSWORD":"supersecret-password"}']);
+        });
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('supersecret-password', config('database.connections.mysql.password'));
     }
 
     public function testItOverridesConfigurationWithTwoSecrets()

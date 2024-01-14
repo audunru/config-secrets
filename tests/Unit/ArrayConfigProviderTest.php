@@ -13,10 +13,13 @@ class ArrayConfigProviderTest extends TestCase
         parent::setUp();
 
         config([
-            'logging.default'                           => 'stack',
-            'config-secrets.providers.array.provider'   => ArrayConfigProvider::class,
-            'config-secrets.environments.testing.array' => [
+            'logging.default'                => 'stack',
+            'config-secrets.providers.array' => [
+                'provider'        => ArrayConfigProvider::class,
                 'logging.default' => 'syslog',
+            ],
+            'config-secrets.environments.testing' => [
+                'array',
             ],
         ]);
     }
@@ -26,5 +29,19 @@ class ArrayConfigProviderTest extends TestCase
         ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('syslog', config('logging.default'));
+    }
+
+    public function testItOverridesConfigurationWithEnvironmentValues()
+    {
+        config([
+            'logging.default'                               => 'stack',
+            'config-secrets.environments.testing.array'     => [
+                'logging.default' => 'papertrail',
+            ],
+        ]);
+
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('papertrail', config('logging.default'));
     }
 }

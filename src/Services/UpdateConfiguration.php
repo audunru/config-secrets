@@ -22,7 +22,7 @@ class UpdateConfiguration
 
             $providerOptions = $this->getProviderOptions($providerName);
             $provider = $this->getProvider($providerName);
-            $overrides = $this->resolveProvider($provider)->getConfiguration(array_merge_recursive($providerOptions, $options));
+            $overrides = $this->resolveProvider($provider)->getConfiguration(array_replace_recursive($providerOptions, $options));
 
             $this->updateConfiguration($overrides);
 
