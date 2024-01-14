@@ -2,8 +2,6 @@
 
 namespace audunru\ConfigSecrets;
 
-use audunru\ConfigSecrets\Contracts\SecretGateway;
-use audunru\ConfigSecrets\Helpers\ConfigurationHelper;
 use audunru\ConfigSecrets\Services\UpdateConfiguration;
 use Illuminate\Foundation\Application;
 use Spatie\LaravelPackageTools\Package;
@@ -46,12 +44,7 @@ class ConfigSecretsServiceProvider extends PackageServiceProvider
             return;
         }
 
-        $gateway = ConfigurationHelper::getDefaultGateway();
-        $app->singleton($gateway);
         $app->singleton(UpdateConfiguration::class);
-        $app->when(UpdateConfiguration::class)
-            ->needs(SecretGateway::class)
-            ->give($gateway);
     }
 
     /**
@@ -59,7 +52,7 @@ class ConfigSecretsServiceProvider extends PackageServiceProvider
      */
     public static function updateConfiguration(Application $app): void
     {
-        if (! $app->configurationIsCached() && ConfigurationHelper::isEnabled() && ! $app->resolved(UpdateConfiguration::class)) {
+        if (! $app->configurationIsCached() && ! $app->resolved(UpdateConfiguration::class)) {
             ($app->make(UpdateConfiguration::class))();
         }
     }
