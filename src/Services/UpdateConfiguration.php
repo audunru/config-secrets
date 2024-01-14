@@ -45,7 +45,7 @@ class UpdateConfiguration
         $provider = config('config-secrets.providers.'.$providerName.'.provider');
 
         if (is_null($provider)) {
-            throw new Exception('No provider named '.$providerName.' exists'); // @todo test
+            throw new Exception('No provider named '.$providerName.' exists');
         }
 
         return $provider;

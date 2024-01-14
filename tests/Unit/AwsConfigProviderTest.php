@@ -70,6 +70,17 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
 
+    public function testItOverridesOnlyIfSecretExists()
+    {
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
+            $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD2":"secret-password"}']);
+        });
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('original-password', config('database.connections.mysql.password'));
+    }
+
     public function testItFiltersSecretsByName()
     {
         config([
