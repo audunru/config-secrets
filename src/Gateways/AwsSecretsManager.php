@@ -2,13 +2,12 @@
 
 namespace audunru\ConfigSecrets\Gateways;
 
-use audunru\ConfigSecrets\Contracts\SecretGateway;
 use Aws\SecretsManager\SecretsManagerClient;
 use Exception;
 use Illuminate\Support\Collection;
 use JsonException;
 
-class AwsSecretsManager implements SecretGateway
+class AwsSecretsManager
 {
     /**
      * Version to utilize.
@@ -47,12 +46,12 @@ class AwsSecretsManager implements SecretGateway
 
     public function __construct()
     {
-        $this->secretName = config('config-secrets.aws.secret-name', '');
-        $this->tagKey = config('config-secrets.aws.tag-key', '');
-        $this->tagValue = config('config-secrets.aws.tag-value', '');
+        $this->secretName = config('config-secrets.providers.aws.secret-name', '');
+        $this->tagKey = config('config-secrets.providers.aws.tag-key', '');
+        $this->tagValue = config('config-secrets.providers.aws.tag-value', '');
         $this->client = new SecretsManagerClient([
             'version' => self::AWS_VERSION,
-            'region'  => config('config-secrets.aws.region'),
+            'region'  => config('config-secrets.providers.aws.region'),
         ]);
     }
 
