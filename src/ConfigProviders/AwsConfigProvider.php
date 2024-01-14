@@ -17,7 +17,7 @@ class AwsConfigProvider implements ConfigProvider
         $secrets = $this->awsSecretsManager->getSecrets();
         $overrides = Arr::get($options, 'configuration-overrides', []);
 
-        $overridesWithSecrets = array_filter($overrides, fn (string $secretKey) => $secrets->has($secretKey));
+        $overridesWithSecrets = array_intersect($overrides, array_keys($secrets->toArray()));
 
         return Arr::map($overridesWithSecrets, function (string $secretKey) use ($secrets) {
             $value = Arr::get($secrets, $secretKey);
