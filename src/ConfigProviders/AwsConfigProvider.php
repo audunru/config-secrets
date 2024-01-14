@@ -26,7 +26,7 @@ class AwsConfigProvider implements ConfigProvider
         });
     }
 
-    private function getDecodedValue(?string $value): ?string
+    private function getDecodedValue(string $value): string
     {
         if (str_starts_with($value, 'base64:')) {
             return base64_decode(substr($value, 7));
