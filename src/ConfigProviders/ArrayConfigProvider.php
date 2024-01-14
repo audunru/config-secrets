@@ -6,7 +6,7 @@ use audunru\ConfigSecrets\Contracts\ConfigProvider;
 
 class ArrayConfigProvider implements ConfigProvider
 {
-    public function getOverrides(array $options): array
+    public function getConfiguration(array $options): array
     {
         return $options;
     }

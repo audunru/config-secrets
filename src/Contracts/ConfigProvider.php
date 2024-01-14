@@ -5,9 +5,9 @@ namespace audunru\ConfigSecrets\Contracts;
 interface ConfigProvider
 {
     /**
-     * Retrieve configuration overrides.
+     * Retrieve configuration.
      *
      * @returns array<string, string>
      */
-    public function getOverrides(array $options): array;
+    public function getConfiguration(array $options): array;
 }

@@ -12,7 +12,7 @@ class AwsConfigProvider implements ConfigProvider
     {
     }
 
-    public function getOverrides(array $options): array
+    public function getConfiguration(array $options): array
     {
         $secrets = $this->awsSecretsManager->getSecrets();
         $overrides = Arr::get($options, 'configuration-overrides', []);
