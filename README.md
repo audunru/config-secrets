@@ -60,10 +60,6 @@ Loading the secrets in `bootstrap/app.php` instead of in a service provider ensu
 
 It is _very important_ that you cache your Laravel configuration with `php artisan config:cache` or `php artisan optimize` when you use this package. If not, secrets will be retrieved for every request. This process is slow and costly!
 
-# Command line
-
-Run `php artisan config:cache` or `php artisan optimize` to update your cached configuration with new secret values.
-
 # Alternatives
 
 [AWS Secrets Manager](https://github.com/TappNetwork/laravel-aws-secrets-manager)
