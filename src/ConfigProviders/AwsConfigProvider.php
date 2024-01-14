@@ -15,11 +15,11 @@ class AwsConfigProvider implements ConfigProvider
     public function getOverrides(array $options): array
     {
         $secrets = $this->awsSecretsManager->getSecrets();
-        $overrides = Arr::get($options, 'configuration-overrides');
+        $overrides = Arr::get($options, 'configuration-overrides', []);
 
-        // TODO: filter overrides slik at den bare går
+        $overridesWithSecrets = array_filter($overrides, fn (string $secretKey) => $secrets->has($secretKey)); // @todo test
 
-        return Arr::map($overrides, function (string $secretKey) use ($secrets) {
+        return Arr::map($overridesWithSecrets, function (string $secretKey) use ($secrets) {
             $value = Arr::get($secrets, $secretKey);
 
             return $this->getDecodedValue($value);
