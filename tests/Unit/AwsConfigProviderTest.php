@@ -20,7 +20,7 @@ class AwsConfigProviderTest extends TestCase
             'database.connections.mysql.password'                  => 'original-password',
             'config-secrets.providers.aws'                         => [
                 'provider'                => AwsConfigProvider::class,
-                'configuration-overrides' => [
+                'configuration'           => [
                     'database.connections.mysql.password' => 'DB_PASSWORD',
                 ],
             ],
@@ -46,7 +46,7 @@ class AwsConfigProviderTest extends TestCase
         config([
             'database.connections.mysql.password'                     => 'original-password',
             'config-secrets.environments.testing.aws'                 => [
-                'configuration-overrides' => [
+                'configuration' => [
                     'database.connections.mysql.password' => 'DATABASE_PASSWORD',
                 ],
             ],
@@ -64,7 +64,7 @@ class AwsConfigProviderTest extends TestCase
     public function testItOverridesConfigurationWithTwoSecrets()
     {
         config([
-            'config-secrets.providers.aws.configuration-overrides' => [
+            'config-secrets.providers.aws.configuration' => [
                 'app.key'                             => 'APP_KEY',
                 'database.connections.mysql.password' => 'DB_PASSWORD',
             ],
@@ -142,7 +142,7 @@ class AwsConfigProviderTest extends TestCase
     public function testConfigurationOverridesSupportsBase64()
     {
         config([
-            'config-secrets.providers.aws.configuration-overrides' => [
+            'config-secrets.providers.aws.configuration' => [
                 'passport.public_key' => 'PASSPORT_PUBLIC_KEY',
             ],
         ]);

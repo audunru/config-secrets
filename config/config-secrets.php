@@ -14,9 +14,11 @@ return [
 
     'providers' => [
         'array' => [
-            'provider' => ArrayConfigProvider::class,
-            // A configuration key ("dot notation" is used) will have its value replaced
-            // 'logging.default' => 'stack'
+            'provider'      => ArrayConfigProvider::class,
+            'configuration' => [
+                // A configuration key ("dot notation" is used) will have its value replaced
+                // 'logging.default' => 'stack'
+            ],
         ],
         'aws'   => [
             'provider' => AwsConfigProvider::class,
@@ -63,7 +65,7 @@ return [
             |
             */
 
-            'configuration-overrides' => [
+            'configuration' => [
                 // A configuration key ("dot notation" is used) will have its value replaced by a secret
                 // 'app.key'                             => 'APP_KEY',
                 // 'database.connections.mysql.password' => 'DB_PASSWORD',

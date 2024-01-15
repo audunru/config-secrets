@@ -16,7 +16,9 @@ class ArrayConfigProviderTest extends TestCase
             'logging.default'                => 'stack',
             'config-secrets.providers.array' => [
                 'provider'        => ArrayConfigProvider::class,
-                'logging.default' => 'syslog',
+                'configuration'   => [
+                    'logging.default' => 'syslog',
+                ],
             ],
             'config-secrets.environments.testing' => [
                 'array',
@@ -34,8 +36,8 @@ class ArrayConfigProviderTest extends TestCase
     public function testItOverridesConfigurationWithEnvironmentValues()
     {
         config([
-            'logging.default'                               => 'stack',
-            'config-secrets.environments.testing.array'     => [
+            'logging.default'                                             => 'stack',
+            'config-secrets.environments.testing.array.configuration'     => [
                 'logging.default' => 'papertrail',
             ],
         ]);
