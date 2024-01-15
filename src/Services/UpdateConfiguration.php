@@ -22,24 +22,33 @@ class UpdateConfiguration
 
             $providerOptions = $this->getProviderOptions($providerName);
             $provider = $this->getProvider($providerName);
-            $overrides = $this->resolveProvider($provider)->getConfiguration(array_replace_recursive($providerOptions, $options));
+            $configuration = $this->resolveProvider($provider)->getConfiguration(array_replace_recursive($providerOptions, $options));
 
-            $this->updateConfiguration($overrides);
+            $this->updateConfiguration($configuration);
 
-            logger()->info(sprintf('ConfigProvider "%s" supplied %u configuration %s', $providerName, count($overrides), count($overrides) > 1 ? 'values' : 'value'));
+            logger()->info(sprintf('ConfigProvider "%s" supplied %u configuration %s', $providerName, count($configuration), count($configuration) > 1 ? 'values' : 'value'));
         }
     }
 
+    /**
+     * Get configuration for the current environment.
+     */
     private function getEnvironmentConfig(): array
     {
         return config('config-secrets.environments.'.config('app.env'), []);
     }
 
+    /**
+     * Get general options for provider.
+     */
     private function getProviderOptions(string $providerName): array
     {
         return config('config-secrets.providers.'.$providerName, []);
     }
 
+    /**
+     * Get implementation of provider.
+     */
     private function getProvider(string $providerName): string
     {
         $provider = config('config-secrets.providers.'.$providerName.'.provider');
@@ -51,13 +60,19 @@ class UpdateConfiguration
         return $provider;
     }
 
+    /**
+     * Retrieve a new instance of provider from the container.
+     */
     private function resolveProvider(string $provider): ConfigProvider
     {
         return app()->make($provider);
     }
 
-    private function updateConfiguration(array $overrides): void
+    /**
+     * Update configuration.
+     */
+    private function updateConfiguration(array $configuration): void
     {
-        config($overrides);
+        config($configuration);
     }
 }
