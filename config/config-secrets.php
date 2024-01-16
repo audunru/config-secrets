@@ -14,9 +14,30 @@ return [
 
     'providers' => [
         'array' => [
+            /*
+            |--------------------------------------------------------------------------
+            | Config provider
+            |--------------------------------------------------------------------------
+            |
+            | Receives options and returns a list of config keys and values.
+            |
+            */
+
             'provider'      => ArrayConfigProvider::class,
+
+            /*
+            |--------------------------------------------------------------------------
+            | Configuration
+            |--------------------------------------------------------------------------
+            |
+            | List of key/value pairs that will override the configuration in all
+            | environments.
+            |
+            */
+
             'configuration' => [
                 // A configuration key ("dot notation" is used) will have its value replaced
+                // with whatever is specified here.
                 // 'logging.default' => 'stack'
             ],
         ],
