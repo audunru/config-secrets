@@ -9,7 +9,7 @@ return [
     | Providers
     |--------------------------------------------------------------------------
     |
-    | Options for configuration override providers
+    | Options for configuration providers
     */
 
     'providers' => [
@@ -99,15 +99,25 @@ return [
     | Environment overrides
     |--------------------------------------------------------------------------
     |
-    | Specify which providers are used in which environments
+    | Specify which providers are used in which environments. Environment
+    | specific provider options will override generic options set in the
+    | providers section.
     */
 
     'environments' => [
         // 'local' => [
-        //     'array',
+        //     'array' => [
+        //         'configuration' => [
+        //           'logging.default' => 'stack'
+        //         ],
+        //     ],
         // ],
         // 'production' => [
-        //     'array',
+        //     'array' => [
+        //         'configuration' => [
+        //           'logging.default' => 'stack'
+        //         ],
+        //     ],
         //     'aws',
         // ],
     ],
