@@ -15,14 +15,14 @@ class AwsConfigProvider implements ConfigProvider
     public function getConfiguration(array $options): array
     {
         $secrets = $this->awsSecretsManager->getSecrets();
-        $configuration = Arr::get($options, 'configuration', []);
-        $configurationWithSecrets = array_intersect($configuration, array_keys($secrets->toArray()));
+        $config = Arr::get($options, 'configuration', []);
+        $configWithSecrets = array_intersect($config, array_keys($secrets->toArray()));
 
         return array_map(function (string $secretKey) use ($secrets) {
             $value = Arr::get($secrets, $secretKey);
 
             return $this->getDecodedValue($value);
-        }, $configurationWithSecrets);
+        }, $configWithSecrets);
     }
 
     /**
