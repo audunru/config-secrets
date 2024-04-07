@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/audunru/config-secrets/compare/v2.0.0...v3.0.0) (2024-04-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* new config format ([#9](https://github.com/audunru/config-secrets/issues/9))
+
+### Code Refactoring
+
+* new config format ([#9](https://github.com/audunru/config-secrets/issues/9)) ([cad4ce2](https://github.com/audunru/config-secrets/commit/cad4ce2a2048f651ad5a4280697a22ec889d8fd4))
+
 ## [2.0.0](https://github.com/audunru/config-secrets/compare/v1.1.1...v2.0.0) (2024-04-07)
 
 
