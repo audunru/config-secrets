@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/audunru/config-secrets/compare/v3.0.0...v3.0.1) (2024-05-05)
+
+
+### Performance Improvements
+
+* service provider is deferrable ([5c3f297](https://github.com/audunru/config-secrets/commit/5c3f297c81bf25ccec22ae0447c969984487b5ae))
+
 ## [3.0.0](https://github.com/audunru/config-secrets/compare/v2.0.0...v3.0.0) (2024-04-07)
 
 
