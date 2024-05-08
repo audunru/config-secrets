@@ -3,12 +3,11 @@
 namespace audunru\ConfigSecrets;
 
 use audunru\ConfigSecrets\Services\UpdateConfiguration;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Foundation\Application;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class ConfigSecretsServiceProvider extends PackageServiceProvider implements DeferrableProvider
+class ConfigSecretsServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -56,12 +55,5 @@ class ConfigSecretsServiceProvider extends PackageServiceProvider implements Def
         if (! $app->configurationIsCached() && ! $app->resolved(UpdateConfiguration::class)) {
             ($app->make(UpdateConfiguration::class))();
         }
-    }
-
-    public function provides(): array
-    {
-        return [
-            UpdateConfiguration::class,
-        ];
     }
 }
