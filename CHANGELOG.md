@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.0.0](https://github.com/audunru/config-secrets/compare/v3.0.1...v4.0.0) (2024-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* do not update configuration when package is booted
+
+### Bug Fixes
+
+* do not update configuration when package is booted ([a04f6a4](https://github.com/audunru/config-secrets/commit/a04f6a4de16e1ace3fa4226e82b4f7372199c184))
+
+
+### Reverts
+
+* service provider is deferrable ([c2cf2fc](https://github.com/audunru/config-secrets/commit/c2cf2fce2e436ea28c08ec53ffd1c8f4d1031374))
+
 ## [3.0.1](https://github.com/audunru/config-secrets/compare/v3.0.0...v3.0.1) (2024-05-05)
 
 
