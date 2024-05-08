@@ -21,11 +21,6 @@ class ConfigSecretsServiceProvider extends PackageServiceProvider
         self::registerDependencies($this->app);
     }
 
-    public function packageBooted()
-    {
-        self::updateConfiguration($this->app);
-    }
-
     /**
      * Register all dependencies and update configuration with secrets.
      */
