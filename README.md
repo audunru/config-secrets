@@ -62,7 +62,7 @@ use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
 $app->afterBootstrapping(LoadConfiguration::class, fn (Application $app) => ConfigSecretsServiceProvider::registerAndUpdate($app));
 ```
 
-Loading the secrets in `bootstrap/app.php` instead of in a service provider ensures that you can override (probably) any configuration value. If you don't modify `app.php`, you will not be able to override config values that are used by service providers that run before this package's own service provider. For instance, Laravel's `RedisServiceProvider` uses the available configuration values when it is registered. Without the code above, you won't be able to override the Redis password.
+Loading the secrets in `bootstrap/app.php` instead of in a service provider ensures that you can override (probably) any configuration value. For instance, Laravel's `RedisServiceProvider` uses the available configuration values when it is registered. Without the code above, you won't be able to override the Redis password.
 
 ## Step 5: Enable configuration cache
 
