@@ -12,6 +12,10 @@ class UpdateConfiguration
      */
     public function __invoke(): void
     {
+        if (! $this->shouldUpdateConfig()) {
+            return;
+        }
+
         $environmentConfig = $this->getEnvironmentConfig();
 
         foreach ($environmentConfig as $providerName => $options) {
@@ -28,6 +32,34 @@ class UpdateConfiguration
 
             logger()->info(sprintf('ConfigProvider "%s" supplied %u configuration %s', $providerName, count($configuration), count($configuration) > 1 ? 'values' : 'value'));
         }
+    }
+
+    /**
+     * Determine if configuration should be updated.
+     */
+    private function shouldUpdateConfig(): bool
+    {
+        return $this->isIncluded() && ! $this->isExcluded();
+    }
+
+    /**
+     * Determine if running console command where config should be updated.
+     */
+    private function isIncluded(): bool
+    {
+        $include = config('config-secrets.console.include', []);
+
+        return empty($include) || app()->runningConsoleCommand($include);
+    }
+
+    /**
+     * Determine if running console command where config should not be updated.
+     */
+    private function isExcluded(): bool
+    {
+        $exclude = config('config-secrets.console.exclude', []);
+
+        return app()->runningConsoleCommand($exclude);
     }
 
     /**

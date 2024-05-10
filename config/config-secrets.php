@@ -6,6 +6,40 @@ use audunru\ConfigSecrets\ConfigProviders\AwsConfigProvider;
 return [
     /*
     |--------------------------------------------------------------------------
+    | Console options
+    |--------------------------------------------------------------------------
+    |
+    | When running console commands, determine if the configuration should be
+    | updated.
+    */
+
+    'console' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Include console commands
+        |--------------------------------------------------------------------------
+        |
+        | Update configuration only when these console commands are run. If empty,
+        | will update on all commands.
+        |
+        */
+
+        'include' => [],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Exclude console commands
+        |--------------------------------------------------------------------------
+        |
+        | Do not update configuration when these console commands are run.
+        |
+        */
+
+        'exclude' => [],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Providers
     |--------------------------------------------------------------------------
     |
