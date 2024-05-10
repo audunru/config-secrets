@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/audunru/config-secrets/compare/v4.0.0...v4.1.0) (2024-05-10)
+
+
+### Features
+
+* update configuration only when running certain console commands ([#17](https://github.com/audunru/config-secrets/issues/17)) ([450280b](https://github.com/audunru/config-secrets/commit/450280b5e43dded971cc5de64a1cbc0dcc170ad3))
+
 ## [4.0.0](https://github.com/audunru/config-secrets/compare/v3.0.1...v4.0.0) (2024-05-08)
 
 
