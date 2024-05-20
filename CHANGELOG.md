@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.1](https://github.com/audunru/config-secrets/compare/v4.1.0...v4.1.1) (2024-05-20)
+
+
+### Miscellaneous Chores
+
+* parallel php-cs-fixer ([9ac0757](https://github.com/audunru/config-secrets/commit/9ac075704eb2efa02cf8a6bf734f1e11a143c123))
+* update dependencies ([1848ec4](https://github.com/audunru/config-secrets/commit/1848ec4606c628a5128179f7e5f3bd72f1ad32ea))
+
 ## [4.1.0](https://github.com/audunru/config-secrets/compare/v4.0.0...v4.1.0) (2024-05-10)
 
 
