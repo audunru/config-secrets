@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.2](https://github.com/audunru/config-secrets/compare/v4.1.1...v4.1.2) (2024-07-16)
+
+
+### Miscellaneous Chores
+
+* update dependencies ([0811881](https://github.com/audunru/config-secrets/commit/081188187171ad0802a45428f320195672e8b125))
+
 ## [4.1.1](https://github.com/audunru/config-secrets/compare/v4.1.0...v4.1.1) (2024-05-20)
 
 
