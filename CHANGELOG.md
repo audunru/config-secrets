@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.3](https://github.com/audunru/config-secrets/compare/v4.1.2...v4.1.3) (2025-02-01)
+
+
+### Miscellaneous Chores
+
+* dependabot config ([d003005](https://github.com/audunru/config-secrets/commit/d0030051682c85342cf9996a088916db2bebcbe0))
+
 ## [4.1.2](https://github.com/audunru/config-secrets/compare/v4.1.1...v4.1.2) (2024-08-25)
 
 
