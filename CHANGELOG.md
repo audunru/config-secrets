@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.0.0](https://github.com/audunru/config-secrets/compare/v4.1.3...v5.0.0) (2025-03-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* laravel 12 support ([#51](https://github.com/audunru/config-secrets/issues/51))
+
+### Features
+
+* laravel 12 support ([#51](https://github.com/audunru/config-secrets/issues/51)) ([9e41488](https://github.com/audunru/config-secrets/commit/9e41488bab09765fcf08970cab5f8d24469a6d6b))
+
+
+### Miscellaneous Chores
+
+* rename master branch to main ([ed6b53c](https://github.com/audunru/config-secrets/commit/ed6b53cc5f5cab0a2d04f28412229b43b17cde15))
+
 ## [4.1.3](https://github.com/audunru/config-secrets/compare/v4.1.2...v4.1.3) (2025-02-01)
 
 
