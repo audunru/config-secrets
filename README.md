@@ -1,8 +1,8 @@
 # Configuration secrets for Laravel
 
 [![Build Status](https://github.com/audunru/config-secrets/actions/workflows/validate.yml/badge.svg)](https://github.com/audunru/config-secrets/actions/workflows/validate.yml)
-[![Coverage Status](https://coveralls.io/repos/github/audunru/config-secrets/badge.svg?branch=master)](https://coveralls.io/github/audunru/config-secrets?branch=master)
-[![StyleCI](https://github.styleci.io/repos/415400658/shield?branch=master)](https://github.styleci.io/repos/415400658)
+[![Coverage Status](https://coveralls.io/repos/github/audunru/config-secrets/badge.svg?branch=main)](https://coveralls.io/github/audunru/config-secrets?branch=main)
+[![StyleCI](https://github.styleci.io/repos/415400658/shield?branch=main)](https://github.styleci.io/repos/415400658)
 
 Retrieve secrets from AWS Secrets Manager and override config variables in Laravel.
 
