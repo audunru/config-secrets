@@ -1,5 +1,63 @@
 # Changelog
 
+## [2.0.0](https://github.com/audunru/config-secrets/compare/v1.0.0...v2.0.0) (2025-11-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* laravel 12 support ([#51](https://github.com/audunru/config-secrets/issues/51))
+* do not update configuration when package is booted
+* new config format ([#9](https://github.com/audunru/config-secrets/issues/9))
+
+### Features
+
+* environment overrides ([9a5a437](https://github.com/audunru/config-secrets/commit/9a5a437a61345b6c91cbe338375e7dd8b0c26e42))
+* laravel 11 support ([#12](https://github.com/audunru/config-secrets/issues/12)) ([895f434](https://github.com/audunru/config-secrets/commit/895f434c219eb67f449bfb99b80b29023fc8d02c))
+* laravel 12 support ([#51](https://github.com/audunru/config-secrets/issues/51)) ([200a38f](https://github.com/audunru/config-secrets/commit/200a38fba4b949dbb48661412574248abbbc52d2))
+* update configuration only when running certain console commands ([#17](https://github.com/audunru/config-secrets/issues/17)) ([83f058d](https://github.com/audunru/config-secrets/commit/83f058d92e3a6b03a9ef21edd38b315e3256bfd9))
+
+
+### Bug Fixes
+
+* do not update configuration when package is booted ([d73ed2e](https://github.com/audunru/config-secrets/commit/d73ed2e8d8813456b4a8e045ef4528718a36c87d))
+
+
+### Performance Improvements
+
+* service provider is deferrable ([ce5bd4e](https://github.com/audunru/config-secrets/commit/ce5bd4e8ca145bba6f55e2eb9f062970e205b3d2))
+
+
+### Reverts
+
+* service provider is deferrable ([c486360](https://github.com/audunru/config-secrets/commit/c486360ad63f1ed2b416a239c7a2fca6da91dd4f))
+
+
+### Miscellaneous Chores
+
+* dependabot config ([de3c4c9](https://github.com/audunru/config-secrets/commit/de3c4c9b6beee5c0884ffdaad4e7af2a6bcafa4f))
+* **main:** release 5.0.0 ([#50](https://github.com/audunru/config-secrets/issues/50)) ([95cac9c](https://github.com/audunru/config-secrets/commit/95cac9c27a751d063a2b5c08b98d93bd3215de94))
+* **master:** release 1.1.0 ([#8](https://github.com/audunru/config-secrets/issues/8)) ([fc773f2](https://github.com/audunru/config-secrets/commit/fc773f27d9ac06a2a1c41b0864207d7fa55c2f87))
+* **master:** release 1.1.1 ([#11](https://github.com/audunru/config-secrets/issues/11)) ([8d8e87a](https://github.com/audunru/config-secrets/commit/8d8e87a1e899e664b6c0963d4d2f904e8d0e6fca))
+* **master:** release 2.0.0 ([#13](https://github.com/audunru/config-secrets/issues/13)) ([f18890d](https://github.com/audunru/config-secrets/commit/f18890d1ec80f0d273d40260fe7dfff6cb315ea1))
+* **master:** release 3.0.0 ([#14](https://github.com/audunru/config-secrets/issues/14)) ([158568c](https://github.com/audunru/config-secrets/commit/158568cc067d7209a416dd7800ed4fc5d9737269))
+* **master:** release 3.0.1 ([#15](https://github.com/audunru/config-secrets/issues/15)) ([9a9b954](https://github.com/audunru/config-secrets/commit/9a9b95491536a77c732ce36756759a1d173be99a))
+* **master:** release 4.0.0 ([#16](https://github.com/audunru/config-secrets/issues/16)) ([107da93](https://github.com/audunru/config-secrets/commit/107da938feb28f22ce9b4abcb188de6cfb979bc7))
+* **master:** release 4.1.0 ([#18](https://github.com/audunru/config-secrets/issues/18)) ([0580f37](https://github.com/audunru/config-secrets/commit/0580f375cbe2173bb3a080217c2f2e7e628912f7))
+* **master:** release 4.1.1 ([#20](https://github.com/audunru/config-secrets/issues/20)) ([dc3702a](https://github.com/audunru/config-secrets/commit/dc3702af776d5219a32364160ceafed933cb1af7))
+* **master:** release 4.1.2 ([#22](https://github.com/audunru/config-secrets/issues/22)) ([a0bdac2](https://github.com/audunru/config-secrets/commit/a0bdac2ff8f0a68bbf8e75d5ac49a6e21e6fcc6f))
+* **master:** release 4.1.3 ([#27](https://github.com/audunru/config-secrets/issues/27)) ([e22dabb](https://github.com/audunru/config-secrets/commit/e22dabbf18945e93e813e18f104649f130d332fd))
+* parallel php-cs-fixer ([f9497f0](https://github.com/audunru/config-secrets/commit/f9497f0c3557bd65ab3ffd7e958eb9d3ac07236c))
+* release 2.0.0 ([0b852b9](https://github.com/audunru/config-secrets/commit/0b852b9b6e4e58f65472aa3ef4341e77d4440ffa))
+* rename master branch to main ([db71da1](https://github.com/audunru/config-secrets/commit/db71da199bafa52391e8809a35790544e85ecb4a))
+* update dependencies ([b7fdb2f](https://github.com/audunru/config-secrets/commit/b7fdb2f758701fce89e7e765ce59f855cfd5b481))
+* update dependencies ([ec42f7b](https://github.com/audunru/config-secrets/commit/ec42f7ba0556558dbd98ea53049fc7a890ebaa69))
+* update dependencies ([3fe0162](https://github.com/audunru/config-secrets/commit/3fe0162c48a4a84b4453407d07f2dfabe7500084))
+
+
+### Code Refactoring
+
+* new config format ([#9](https://github.com/audunru/config-secrets/issues/9)) ([2665926](https://github.com/audunru/config-secrets/commit/26659261bffbfe9cccdeff2527c6206fb5c447e2))
+
 ## [5.0.0](https://github.com/audunru/config-secrets/compare/v4.1.3...v5.0.0) (2025-03-16)
 
 
