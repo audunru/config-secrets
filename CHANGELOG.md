@@ -1,3 +1,22 @@
+# [1.1.0](https://github.com/audunru/config-secrets/compare/v1.0.0...v1.1.0) (2025-11-15)
+
+
+### Features
+
+* environment overrides ([9a5a437](https://github.com/audunru/config-secrets/commit/9a5a437a61345b6c91cbe338375e7dd8b0c26e42))
+* laravel 11 support ([#12](https://github.com/audunru/config-secrets/issues/12)) ([895f434](https://github.com/audunru/config-secrets/commit/895f434c219eb67f449bfb99b80b29023fc8d02c))
+* update configuration only when running certain console commands ([#17](https://github.com/audunru/config-secrets/issues/17)) ([83f058d](https://github.com/audunru/config-secrets/commit/83f058d92e3a6b03a9ef21edd38b315e3256bfd9))
+
+
+### Performance Improvements
+
+* service provider is deferrable ([ce5bd4e](https://github.com/audunru/config-secrets/commit/ce5bd4e8ca145bba6f55e2eb9f062970e205b3d2))
+
+
+### Reverts
+
+* service provider is deferrable ([c486360](https://github.com/audunru/config-secrets/commit/c486360ad63f1ed2b416a239c7a2fca6da91dd4f))
+
 # Changelog
 
 ## [5.0.0](https://github.com/audunru/config-secrets/compare/v4.1.3...v5.0.0) (2025-03-16)
