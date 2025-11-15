@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/audunru/config-secrets/compare/v5.0.1...v5.0.2) (2025-11-15)
+
+
+### Bug Fixes
+
+* force semantic release ([6f62b09](https://github.com/audunru/config-secrets/commit/6f62b0956453dd681fb5ed8b19319c08de182e02))
+
 # [1.1.0](https://github.com/audunru/config-secrets/compare/v1.0.0...v1.1.0) (2025-11-15)
 
 
