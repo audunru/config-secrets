@@ -6681,16 +6681,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.91.0",
+            "version": "v3.92.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "c4a25f20390337789c26b693ae46faa125040352"
+                "reference": "2ba8f5a60f6f42fb65758cfb3768434fa2d1c7e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/c4a25f20390337789c26b693ae46faa125040352",
-                "reference": "c4a25f20390337789c26b693ae46faa125040352",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/2ba8f5a60f6f42fb65758cfb3768434fa2d1c7e8",
+                "reference": "2ba8f5a60f6f42fb65758cfb3768434fa2d1c7e8",
                 "shasum": ""
             },
             "require": {
@@ -6730,6 +6730,7 @@
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.6",
                 "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.6",
                 "phpunit/phpunit": "^9.6.25 || ^10.5.53 || ^11.5.34",
+                "symfony/polyfill-php85": "^1.33",
                 "symfony/var-dumper": "^5.4.48 || ^6.4.24 || ^7.3.2 || ^8.0",
                 "symfony/yaml": "^5.4.45 || ^6.4.24 || ^7.3.2 || ^8.0"
             },
@@ -6746,7 +6747,7 @@
                     "PhpCsFixer\\": "src/"
                 },
                 "exclude-from-classmap": [
-                    "src/Fixer/Internal/*"
+                    "src/**/Internal/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6772,7 +6773,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.91.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.3"
             },
             "funding": [
                 {
@@ -6780,7 +6781,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-28T22:07:42+00:00"
+            "time": "2025-12-18T10:45:02+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -7878,16 +7879,16 @@
         },
         {
             "name": "php-coveralls/php-coveralls",
-            "version": "v2.9.0",
+            "version": "v2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-coveralls/php-coveralls.git",
-                "reference": "468f5247e9e36ecc9b34f501cab868e7ac7c1f73"
+                "reference": "916bdb118597f61ce6715fb738ab8f234b89a2cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-coveralls/php-coveralls/zipball/468f5247e9e36ecc9b34f501cab868e7ac7c1f73",
-                "reference": "468f5247e9e36ecc9b34f501cab868e7ac7c1f73",
+                "url": "https://api.github.com/repos/php-coveralls/php-coveralls/zipball/916bdb118597f61ce6715fb738ab8f234b89a2cb",
+                "reference": "916bdb118597f61ce6715fb738ab8f234b89a2cb",
                 "shasum": ""
             },
             "require": {
@@ -7955,9 +7956,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-coveralls/php-coveralls/issues",
-                "source": "https://github.com/php-coveralls/php-coveralls/tree/v2.9.0"
+                "source": "https://github.com/php-coveralls/php-coveralls/tree/v2.9.1"
             },
-            "time": "2025-11-06T10:39:48+00:00"
+            "time": "2025-12-18T13:08:37+00:00"
         },
         {
             "name": "phpmd/phpmd",
@@ -8639,16 +8640,16 @@
         },
         {
             "name": "react/child-process",
-            "version": "v0.6.6",
+            "version": "v0.6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/child-process.git",
-                "reference": "1721e2b93d89b745664353b9cfc8f155ba8a6159"
+                "reference": "970f0e71945556422ee4570ccbabaedc3cf04ad3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/child-process/zipball/1721e2b93d89b745664353b9cfc8f155ba8a6159",
-                "reference": "1721e2b93d89b745664353b9cfc8f155ba8a6159",
+                "url": "https://api.github.com/repos/reactphp/child-process/zipball/970f0e71945556422ee4570ccbabaedc3cf04ad3",
+                "reference": "970f0e71945556422ee4570ccbabaedc3cf04ad3",
                 "shasum": ""
             },
             "require": {
@@ -8702,7 +8703,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/child-process/issues",
-                "source": "https://github.com/reactphp/child-process/tree/v0.6.6"
+                "source": "https://github.com/reactphp/child-process/tree/v0.6.7"
             },
             "funding": [
                 {
@@ -8710,7 +8711,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-01-01T16:37:48+00:00"
+            "time": "2025-12-23T15:25:20+00:00"
         },
         {
             "name": "react/dns",
@@ -11123,22 +11124,22 @@
         },
         {
             "name": "symfony/config",
-            "version": "v7.3.6",
+            "version": "v7.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "9d18eba95655a3152ae4c1d53c6cc34eb4d4a0b7"
+                "reference": "800ce889e358a53a9678b3212b0c8cecd8c6aace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/9d18eba95655a3152ae4c1d53c6cc34eb4d4a0b7",
-                "reference": "9d18eba95655a3152ae4c1d53c6cc34eb4d4a0b7",
+                "url": "https://api.github.com/repos/symfony/config/zipball/800ce889e358a53a9678b3212b0c8cecd8c6aace",
+                "reference": "800ce889e358a53a9678b3212b0c8cecd8c6aace",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/filesystem": "^7.1",
+                "symfony/filesystem": "^7.1|^8.0",
                 "symfony/polyfill-ctype": "~1.8"
             },
             "conflict": {
@@ -11146,11 +11147,11 @@
                 "symfony/service-contracts": "<2.5"
             },
             "require-dev": {
-                "symfony/event-dispatcher": "^6.4|^7.0",
-                "symfony/finder": "^6.4|^7.0",
-                "symfony/messenger": "^6.4|^7.0",
+                "symfony/event-dispatcher": "^6.4|^7.0|^8.0",
+                "symfony/finder": "^6.4|^7.0|^8.0",
+                "symfony/messenger": "^6.4|^7.0|^8.0",
                 "symfony/service-contracts": "^2.5|^3",
-                "symfony/yaml": "^6.4|^7.0"
+                "symfony/yaml": "^6.4|^7.0|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -11178,7 +11179,7 @@
             "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/config/tree/v7.3.6"
+                "source": "https://github.com/symfony/config/tree/v7.4.3"
             },
             "funding": [
                 {
@@ -11198,7 +11199,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-02T08:04:43+00:00"
+            "time": "2025-12-23T14:24:27+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -11584,16 +11585,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v7.4.0",
+            "version": "v7.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "6c84a4b55aee4cd02034d1c528e83f69ddf63810"
+                "reference": "24dd4de28d2e3988b311751ac49e684d783e2345"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/6c84a4b55aee4cd02034d1c528e83f69ddf63810",
-                "reference": "6c84a4b55aee4cd02034d1c528e83f69ddf63810",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/24dd4de28d2e3988b311751ac49e684d783e2345",
+                "reference": "24dd4de28d2e3988b311751ac49e684d783e2345",
                 "shasum": ""
             },
             "require": {
@@ -11636,7 +11637,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v7.4.0"
+                "source": "https://github.com/symfony/yaml/tree/v7.4.1"
             },
             "funding": [
                 {
@@ -11656,7 +11657,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-16T10:14:42+00:00"
+            "time": "2025-12-04T18:11:45+00:00"
         },
         {
             "name": "theseer/tokenizer",
