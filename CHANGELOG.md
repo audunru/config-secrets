@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/audunru/config-secrets/compare/v5.0.2...v6.0.0) (2026-03-01)
+
+
+### Features
+
+* do not log supplied values count by default ([#94](https://github.com/audunru/config-secrets/issues/94)) ([e2fd74d](https://github.com/audunru/config-secrets/commit/e2fd74d108f0ebf106c8a20be30c1475556e3e1c))
+
+
+### BREAKING CHANGES
+
+* Previously logging was always enabled.
+
 ## [5.0.2](https://github.com/audunru/config-secrets/compare/v5.0.1...v5.0.2) (2025-11-15)
 
 
