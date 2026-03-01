@@ -4,6 +4,8 @@ namespace audunru\ConfigSecrets\Tests\Unit;
 
 use audunru\ConfigSecrets\ConfigProviders\ArrayConfigProvider;
 use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
+use Illuminate\Support\Facades\Log;
+use Mockery;
 use Orchestra\Testbench\TestCase;
 
 class ArrayConfigProviderTest extends TestCase
@@ -45,5 +47,43 @@ class ArrayConfigProviderTest extends TestCase
         ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('papertrail', config('logging.default'));
+    }
+
+    public function testItDoesNotLogByDefault()
+    {
+        Log::spy();
+
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        Log::shouldNotHaveReceived('info');
+    }
+
+    public function testItLogsWhenLogIsTrue()
+    {
+        config(['config-secrets.providers.array.log' => true]);
+
+        Log::spy();
+
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        Log::shouldHaveReceived('info')
+            ->once()
+            ->with(Mockery::on(fn ($msg) => str_contains($msg, 'array')));
+    }
+
+    public function testItLogsWhenLogIsTrueInEnvironmentConfig()
+    {
+        config([
+            'config-secrets.providers.array.log'  => false,
+            'config-secrets.environments.testing' => [
+                'array' => ['log' => true],
+            ],
+        ]);
+
+        Log::spy();
+
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        Log::shouldHaveReceived('info')->once();
     }
 }

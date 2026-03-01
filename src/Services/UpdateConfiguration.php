@@ -4,6 +4,7 @@ namespace audunru\ConfigSecrets\Services;
 
 use audunru\ConfigSecrets\Contracts\ConfigProvider;
 use Exception;
+use Illuminate\Support\Arr;
 
 class UpdateConfiguration
 {
@@ -25,12 +26,15 @@ class UpdateConfiguration
             }
 
             $providerOptions = $this->getProviderOptions($providerName);
+            $mergedOptions = array_replace_recursive($providerOptions, $options);
             $provider = $this->getProvider($providerName);
-            $configuration = $this->resolveProvider($provider)->getConfiguration(array_replace_recursive($providerOptions, $options));
+            $configuration = $this->resolveProvider($provider)->getConfiguration($mergedOptions);
 
             $this->updateConfiguration($configuration);
 
-            logger()->info(sprintf('ConfigProvider "%s" supplied %u configuration %s', $providerName, count($configuration), count($configuration) > 1 ? 'values' : 'value'));
+            if (Arr::get($mergedOptions, 'log', false)) {
+                logger()->info(sprintf('ConfigProvider "%s" supplied %u configuration %s', $providerName, count($configuration), count($configuration) > 1 ? 'values' : 'value'));
+            }
         }
     }
 
