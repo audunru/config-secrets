@@ -51,7 +51,7 @@ class AwsSecretsManager
         $this->tagValue = config('config-secrets.providers.aws.tag-value', '');
         $this->client = new SecretsManagerClient([
             'version' => self::AWS_VERSION,
-            'region'  => config('config-secrets.providers.aws.region'),
+            'region' => config('config-secrets.providers.aws.region'),
         ]);
     }
 
@@ -62,7 +62,7 @@ class AwsSecretsManager
     {
         try {
             ['SecretList' => $secretList] = $this->client->listSecrets([
-                'Filters'    => $this->getFilters(),
+                'Filters' => $this->getFilters(),
                 'MaxResults' => self::MAX_SECRETS,
             ]);
         } catch (Exception $exception) {
@@ -97,7 +97,7 @@ class AwsSecretsManager
 
         if (! empty($this->secretName)) {
             $filters[] = [
-                'Key'    => 'name',
+                'Key' => 'name',
                 'Values' => [$this->secretName],
             ];
         }
@@ -105,11 +105,11 @@ class AwsSecretsManager
         if (! empty($this->tagKey) && ! empty($this->tagValue)) {
             array_push($filters,
                 [
-                    'Key'    => 'tag-key',
+                    'Key' => 'tag-key',
                     'Values' => [$this->tagKey],
                 ],
                 [
-                    'Key'    => 'tag-value',
+                    'Key' => 'tag-value',
                     'Values' => [$this->tagValue],
                 ]);
         }

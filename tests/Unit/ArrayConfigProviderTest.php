@@ -15,10 +15,10 @@ class ArrayConfigProviderTest extends TestCase
         parent::setUp();
 
         config([
-            'logging.default'                => 'stack',
+            'logging.default' => 'stack',
             'config-secrets.providers.array' => [
-                'provider'        => ArrayConfigProvider::class,
-                'configuration'   => [
+                'provider' => ArrayConfigProvider::class,
+                'configuration' => [
                     'logging.default' => 'syslog',
                 ],
             ],
@@ -28,18 +28,18 @@ class ArrayConfigProviderTest extends TestCase
         ]);
     }
 
-    public function testItOverridesConfiguration()
+    public function test_it_overrides_configuration()
     {
         ConfigSecretsServiceProvider::updateConfiguration(app());
 
         $this->assertEquals('syslog', config('logging.default'));
     }
 
-    public function testItOverridesConfigurationWithEnvironmentValues()
+    public function test_it_overrides_configuration_with_environment_values()
     {
         config([
-            'logging.default'                                             => 'stack',
-            'config-secrets.environments.testing.array.configuration'     => [
+            'logging.default' => 'stack',
+            'config-secrets.environments.testing.array.configuration' => [
                 'logging.default' => 'papertrail',
             ],
         ]);
@@ -49,7 +49,7 @@ class ArrayConfigProviderTest extends TestCase
         $this->assertEquals('papertrail', config('logging.default'));
     }
 
-    public function testItDoesNotLogByDefault()
+    public function test_it_does_not_log_by_default()
     {
         Log::spy();
 
@@ -58,7 +58,7 @@ class ArrayConfigProviderTest extends TestCase
         Log::shouldNotHaveReceived('info');
     }
 
-    public function testItLogsWhenLogIsTrue()
+    public function test_it_logs_when_log_is_true()
     {
         config(['config-secrets.providers.array.log' => true]);
 
@@ -71,10 +71,10 @@ class ArrayConfigProviderTest extends TestCase
             ->with(Mockery::on(fn ($msg) => str_contains($msg, 'array')));
     }
 
-    public function testItLogsWhenLogIsTrueInEnvironmentConfig()
+    public function test_it_logs_when_log_is_true_in_environment_config()
     {
         config([
-            'config-secrets.providers.array.log'  => false,
+            'config-secrets.providers.array.log' => false,
             'config-secrets.environments.testing' => [
                 'array' => ['log' => true],
             ],

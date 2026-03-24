@@ -8,9 +8,7 @@ use Illuminate\Support\Arr;
 
 class AwsConfigProvider implements ConfigProvider
 {
-    public function __construct(private AwsSecretsManager $awsSecretsManager)
-    {
-    }
+    public function __construct(private AwsSecretsManager $awsSecretsManager) {}
 
     public function getConfiguration(array $options): array
     {

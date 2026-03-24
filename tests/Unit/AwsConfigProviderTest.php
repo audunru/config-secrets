@@ -17,10 +17,10 @@ class AwsConfigProviderTest extends TestCase
         parent::setUp();
 
         config([
-            'database.connections.mysql.password'                  => 'original-password',
-            'config-secrets.providers.aws'                         => [
-                'provider'                => AwsConfigProvider::class,
-                'configuration'           => [
+            'database.connections.mysql.password' => 'original-password',
+            'config-secrets.providers.aws' => [
+                'provider' => AwsConfigProvider::class,
+                'configuration' => [
                     'database.connections.mysql.password' => 'DB_PASSWORD',
                 ],
             ],
@@ -30,7 +30,7 @@ class AwsConfigProviderTest extends TestCase
         ]);
     }
 
-    public function testItOverridesConfiguration()
+    public function test_it_overrides_configuration()
     {
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
@@ -41,11 +41,11 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
 
-    public function testItOverridesConfigurationWithEnvironmentValues()
+    public function test_it_overrides_configuration_with_environment_values()
     {
         config([
-            'database.connections.mysql.password'                     => 'original-password',
-            'config-secrets.environments.testing.aws'                 => [
+            'database.connections.mysql.password' => 'original-password',
+            'config-secrets.environments.testing.aws' => [
                 'configuration' => [
                     'database.connections.mysql.password' => 'DATABASE_PASSWORD',
                 ],
@@ -61,11 +61,11 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('supersecret-password', config('database.connections.mysql.password'));
     }
 
-    public function testItOverridesConfigurationWithTwoSecrets()
+    public function test_it_overrides_configuration_with_two_secrets()
     {
         config([
             'config-secrets.providers.aws.configuration' => [
-                'app.key'                             => 'APP_KEY',
+                'app.key' => 'APP_KEY',
                 'database.connections.mysql.password' => 'DB_PASSWORD',
             ],
         ]);
@@ -80,7 +80,7 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
 
-    public function testItOverridesConfigurationOnlyOnce()
+    public function test_it_overrides_configuration_only_once()
     {
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
@@ -92,7 +92,7 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
 
-    public function testItOverridesOnlyIfSecretExists()
+    public function test_it_overrides_only_if_secret_exists()
     {
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
@@ -103,7 +103,7 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('original-password', config('database.connections.mysql.password'));
     }
 
-    public function testItFiltersSecretsByName()
+    public function test_it_filters_secrets_by_name()
     {
         config([
             'config-secrets.providers.aws.secret-name' => 'some-secret-name',
@@ -111,7 +111,7 @@ class AwsConfigProviderTest extends TestCase
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->withArgs(function ($arg) {
-                return 'name' === Arr::get($arg, 'Filters.0.Key') && 'some-secret-name' === Arr::get($arg, 'Filters.0.Values.0');
+                return Arr::get($arg, 'Filters.0.Key') === 'name' && Arr::get($arg, 'Filters.0.Values.0') === 'some-secret-name';
             })->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
@@ -120,17 +120,17 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
 
-    public function testItFiltersSecretsByTagKeyAndValue()
+    public function test_it_filters_secrets_by_tag_key_and_value()
     {
         config([
-            'config-secrets.providers.aws.tag-key'   => 'some-tag-key',
+            'config-secrets.providers.aws.tag-key' => 'some-tag-key',
             'config-secrets.providers.aws.tag-value' => 'some-tag-value',
         ]);
 
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->withArgs(function ($arg) {
-                return 'tag-key' === Arr::get($arg, 'Filters.0.Key') && 'some-tag-key' === Arr::get($arg, 'Filters.0.Values.0')
-                    && 'tag-value' === Arr::get($arg, 'Filters.1.Key') && 'some-tag-value' === Arr::get($arg, 'Filters.1.Values.0');
+                return Arr::get($arg, 'Filters.0.Key') === 'tag-key' && Arr::get($arg, 'Filters.0.Values.0') === 'some-tag-key'
+                    && Arr::get($arg, 'Filters.1.Key') === 'tag-value' && Arr::get($arg, 'Filters.1.Values.0') === 'some-tag-value';
             })->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
         });
@@ -139,7 +139,7 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
 
-    public function testConfigurationOverridesSupportsBase64()
+    public function test_configuration_overrides_supports_base64()
     {
         config([
             'config-secrets.providers.aws.configuration' => [
@@ -169,7 +169,7 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
 -----END PUBLIC KEY-----', config('passport.public_key'));
     }
 
-    public function testItRethrowsExceptionInListSecrets()
+    public function test_it_rethrows_exception_in_list_secrets()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('some-message');
@@ -180,7 +180,7 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
         ConfigSecretsServiceProvider::updateConfiguration(app());
     }
 
-    public function testItRethrowsJsonException()
+    public function test_it_rethrows_json_exception()
     {
         $this->expectException(JsonException::class);
         $this->expectExceptionMessage('Syntax error');
@@ -192,7 +192,7 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
         ConfigSecretsServiceProvider::updateConfiguration(app());
     }
 
-    public function testItRethrowsExceptionInGetSecretValue()
+    public function test_it_rethrows_exception_in_get_secret_value()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('some-message');
