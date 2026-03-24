@@ -19,7 +19,7 @@ class ConfigProviderTest extends TestCase
         ]);
     }
 
-    public function testItThrowsExceptionWhenProviderDoesNotExist()
+    public function test_it_throws_exception_when_provider_does_not_exist()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('No provider named array exists');

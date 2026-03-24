@@ -57,7 +57,7 @@ return [
             |
             */
 
-            'provider'      => ArrayConfigProvider::class,
+            'provider' => ArrayConfigProvider::class,
 
             /*
             |--------------------------------------------------------------------------
@@ -86,7 +86,7 @@ return [
                 // 'logging.default' => 'stack'
             ],
         ],
-        'aws'   => [
+        'aws' => [
             'provider' => AwsConfigProvider::class,
 
             /*
@@ -120,7 +120,7 @@ return [
             |
             */
 
-            'secret-name'      => env('AWS_SECRET_NAME', ''),
+            'secret-name' => env('AWS_SECRET_NAME', ''),
 
             /*
             |--------------------------------------------------------------------------
@@ -131,7 +131,7 @@ return [
             |
             */
 
-            'tag-key'   => env('AWS_SECRETS_TAG_KEY', ''),
+            'tag-key' => env('AWS_SECRETS_TAG_KEY', ''),
             'tag-value' => env('AWS_SECRETS_TAG_VALUE', ''),
 
             /*
