@@ -1,3 +1,15 @@
+# [7.0.0](https://github.com/audunru/config-secrets/compare/v6.0.0...v7.0.0) (2026-03-24)
+
+
+### Features
+
+* laravel 13 support ([#98](https://github.com/audunru/config-secrets/issues/98)) ([e71a00d](https://github.com/audunru/config-secrets/commit/e71a00d90b68f6bbb1eeaf6bb16df1c41fb70963))
+
+
+### BREAKING CHANGES
+
+* Laravel 13 is now the minimum required version, which also means PHP 8.3 is required
+
 # [6.0.0](https://github.com/audunru/config-secrets/compare/v5.0.2...v6.0.0) (2026-03-01)
 
 
