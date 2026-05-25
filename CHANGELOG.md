@@ -1,3 +1,10 @@
+# [7.1.0](https://github.com/audunru/config-secrets/compare/v7.0.0...v7.1.0) (2026-05-25)
+
+
+### Features
+
+* add Trivy security scan workflow ([#104](https://github.com/audunru/config-secrets/issues/104)) ([5cb9e35](https://github.com/audunru/config-secrets/commit/5cb9e3549b65c957bb417bd9f3ff04bf5ea5044e))
+
 # [7.0.0](https://github.com/audunru/config-secrets/compare/v6.0.0...v7.0.0) (2026-03-24)
 
 
