@@ -42,7 +42,14 @@ In your Laravel application:
 
 1. Set `AWS_DEFAULT_REGION` in `.env` or set the region directly in [config-secrets.php](config/config-secrets.php)
 2. Set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in `.env` or [use any of the other options that AWS SDK offers](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials.html)
-3. Map Laravel configuration keys to secret keys under the `aws` provider's `configuration` section in [config-secrets.php](config/config-secrets.php)
+3. Set `AWS_SECRET_NAME`, or both `AWS_SECRETS_TAG_KEY` and `AWS_SECRETS_TAG_VALUE`, in `.env` (see [Filter the secrets](#filter-the-secrets))
+4. Map Laravel configuration keys to secret keys under the `aws` provider's `configuration` section in [config-secrets.php](config/config-secrets.php)
+
+#### Filter the secrets
+
+Always set a filter. Without a filter, the package reads all secrets in the AWS account (up to 100) and merges their key/value pairs. When two secrets have the same key, for example `APP_KEY`, the value from the secret that AWS returns last is used. In an account that holds secrets for more than one application or environment, your application can thus get the values of a different application or environment.
+
+AWS matches the `name`, `tag-key` and `tag-value` filters as prefixes, not as exact values. For example, `AWS_SECRET_NAME=myapp` also matches a secret named `myapp-staging`. The tag key and the tag value are two separate filters, so they do not have to match the same tag. See the [AWS `Filter` documentation](https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_Filter.html).
 
 ## Array
 
