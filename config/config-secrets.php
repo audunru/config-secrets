@@ -116,7 +116,9 @@ return [
             | Secret name
             |--------------------------------------------------------------------------
             |
-            | Only the secret with this name will be retrieved. Leave empty to retrieve all secrets.
+            | Only secrets whose name starts with this value will be retrieved. AWS matches
+            | the name as a prefix, so "myapp" also matches "myapp-staging". Leave empty to
+            | retrieve all secrets in the AWS account.
             |
             */
 
@@ -127,7 +129,10 @@ return [
             | Tag used to return list of secrets
             |--------------------------------------------------------------------------
             |
-            | Only secrets tagged with this key/value will be retrieved. Leave empty to retrieve all secrets.
+            | Only secrets with a tag key that starts with "tag-key" and a tag value that
+            | starts with "tag-value" will be retrieved. AWS matches both as prefixes, and as
+            | two separate filters, so they do not have to match the same tag. Both must be
+            | set for the filter to apply. Leave empty to retrieve all secrets in the AWS account.
             |
             */
 
