@@ -139,6 +139,72 @@ class AwsConfigProviderTest extends TestCase
         $this->assertEquals('secret-password', config('database.connections.mysql.password'));
     }
 
+    public function test_it_filters_secrets_by_environment_secret_name()
+    {
+        config([
+            'config-secrets.providers.aws.secret-name' => 'global-name',
+            'config-secrets.environments.testing' => [
+                'aws' => ['secret-name' => 'environment-name'],
+            ],
+        ]);
+
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('listSecrets')->once()->withArgs(function ($arg) {
+                return Arr::get($arg, 'Filters.0.Key') === 'name' && Arr::get($arg, 'Filters.0.Values.0') === 'environment-name';
+            })->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
+            $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
+        });
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('secret-password', config('database.connections.mysql.password'));
+    }
+
+    public function test_it_filters_secrets_by_environment_tag_key_and_value()
+    {
+        config([
+            'config-secrets.providers.aws.tag-key' => 'global-tag-key',
+            'config-secrets.providers.aws.tag-value' => 'global-tag-value',
+            'config-secrets.environments.testing' => [
+                'aws' => [
+                    'tag-key' => 'environment-tag-key',
+                    'tag-value' => 'environment-tag-value',
+                ],
+            ],
+        ]);
+
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('listSecrets')->once()->withArgs(function ($arg) {
+                return Arr::get($arg, 'Filters.0.Key') === 'tag-key' && Arr::get($arg, 'Filters.0.Values.0') === 'environment-tag-key'
+                    && Arr::get($arg, 'Filters.1.Key') === 'tag-value' && Arr::get($arg, 'Filters.1.Values.0') === 'environment-tag-value';
+            })->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
+            $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
+        });
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('secret-password', config('database.connections.mysql.password'));
+    }
+
+    public function test_it_uses_environment_region()
+    {
+        config([
+            'config-secrets.providers.aws.region' => 'eu-north-1',
+            'config-secrets.environments.testing' => [
+                'aws' => ['region' => 'eu-west-1'],
+            ],
+        ]);
+
+        $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
+            $mock->shouldReceive('__construct')->once()->withArgs(function ($arg) {
+                return Arr::get($arg, 'region') === 'eu-west-1';
+            });
+            $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
+            $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '{"DB_PASSWORD":"secret-password"}']);
+        });
+        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        $this->assertEquals('secret-password', config('database.connections.mysql.password'));
+    }
+
     public function test_configuration_overrides_supports_base64()
     {
         config([
