@@ -11,8 +11,8 @@ Overrides Laravel config values at bootstrap with values from config providers, 
 - **`ConfigProvider` contract** (`src/Contracts/ConfigProvider.php`) — `getConfiguration(array $options): array` returns `['dot.config.key' => value]`. Implement it to add a new source
 - **Built-in providers** (`src/ConfigProviders/`):
   - `ArrayConfigProvider` — returns the `configuration` option as it is
-  - `AwsConfigProvider` — maps config keys to secret names (`'app.key' => 'APP_KEY'`); only keys whose secret exists are returned; values prefixed `base64:` are decoded
-- **`AwsSecretsManager` gateway** (`src/Gateways/AwsSecretsManager.php`) — lists up to 100 secrets (filtered by `secret-name` and/or `tag-key` + `tag-value`), and decodes each `SecretString` as a flat JSON object (depth 2). Errors are logged as alerts and rethrown
+  - `AwsConfigProvider` — gives `region`, `secret-name`, `tag-key` and `tag-value` from the merged options to the gateway; maps config keys to secret names (`'app.key' => 'APP_KEY'`); only keys whose secret exists are returned; values prefixed `base64:` are decoded
+- **`AwsSecretsManager` gateway** (`src/Gateways/AwsSecretsManager.php`) — `getSecrets($region, $secretName, $tagKey, $tagValue)` lists up to 100 secrets (filtered by the secret name and/or the tag key + tag value), and decodes each `SecretString` as a flat JSON object (depth 2). Errors are logged as alerts and rethrown
 - **`UpdateConfiguration` service** (`src/Services/UpdateConfiguration.php`) — reads `environments.<app.env>`, merges per-environment options over `providers.<name>` with `array_replace_recursive()`, resolves each provider from the container and writes the result with `config()`
 
 ## Service Provider
@@ -38,7 +38,8 @@ Tests in `tests/Unit/` extend `Orchestra\Testbench\TestCase` directly (there is 
 - Consumers must cache config (`php artisan config:cache`); otherwise AWS is called on every request. `updateConfiguration()` does nothing when the config is cached.
 - An environment entry that names a provider that is not in `providers` throws `Exception('No provider named ... exists')`.
 - `updateConfiguration()` runs only once per app instance (singleton guard). See `test_it_overrides_configuration_only_once` in `tests/Unit/AwsConfigProviderTest.php`.
-- `AwsSecretsManager` reads its config in the constructor. A change to `config-secrets.providers.aws.*` after it is built has no effect.
+- `AwsSecretsManager` reads no config. It gets its options from `AwsConfigProvider`, so environment options (`environments.<env>.aws.region` etc.) override the provider options.
 - Pagination of `listSecrets` is not implemented; only the first 100 secrets are used.
 - The `base64:` prefix is for multiline values such as PEM keys (see `test_configuration_overrides_supports_base64`).
 - `docs/v1-v2-migration.md` documents the v1 → v2 config format change.
+- `docs/v2-v3-migration.md` documents the v2 → v3 change: per-environment AWS options and the new `getSecrets()` signature.
