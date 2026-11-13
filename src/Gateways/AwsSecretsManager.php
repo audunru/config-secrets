@@ -40,7 +40,7 @@ class AwsSecretsManager
                 'MaxResults' => self::MAX_SECRETS,
             ]);
         } catch (Exception $exception) {
-            logger()->alert('Error retrieving secrets from AWS Secrets Manager', ['exception', $exception]);
+            logger()->alert('Error retrieving secrets from AWS Secrets Manager', ['exception' => $exception]);
             throw $exception;
         }
 
@@ -53,10 +53,10 @@ class AwsSecretsManager
 
                     return json_decode($secretString, true, self::JSON_DECODE_DEPTH, JSON_THROW_ON_ERROR);
                 } catch (JsonException $exception) {
-                    logger()->alert('Error decoding response from AWS Secrets Manager', ['exception', $exception]);
+                    logger()->alert('Error decoding response from AWS Secrets Manager', ['exception' => $exception]);
                     throw $exception;
                 } catch (Exception $exception) {
-                    logger()->alert('Error retrieving secret value from AWS Secrets Manager', ['exception', $exception]);
+                    logger()->alert('Error retrieving secret value from AWS Secrets Manager', ['exception' => $exception]);
                     throw $exception;
                 }
             });

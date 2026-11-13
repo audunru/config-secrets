@@ -6,7 +6,9 @@ use audunru\ConfigSecrets\ConfigProviders\AwsConfigProvider;
 use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use JsonException;
+use Mockery;
 use Mockery\MockInterface;
 use Orchestra\Testbench\TestCase;
 
@@ -240,10 +242,22 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('some-message');
 
+        Log::spy();
+
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andThrow(new Exception('some-message'));
         });
-        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        try {
+            ConfigSecretsServiceProvider::updateConfiguration(app());
+        } finally {
+            Log::shouldHaveReceived('alert')
+                ->once()
+                ->with('Error retrieving secrets from AWS Secrets Manager', Mockery::on(
+                    fn ($context) => ($context['exception'] ?? null) instanceof Exception
+                        && $context['exception']->getMessage() === 'some-message'
+                ));
+        }
     }
 
     public function test_it_rethrows_json_exception()
@@ -251,11 +265,23 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
         $this->expectException(JsonException::class);
         $this->expectExceptionMessage('Syntax error');
 
+        Log::spy();
+
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andReturn(['SecretString' => '"DB_PASSWORD":"secret-password"}']);
         });
-        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        try {
+            ConfigSecretsServiceProvider::updateConfiguration(app());
+        } finally {
+            Log::shouldHaveReceived('alert')
+                ->once()
+                ->with('Error decoding response from AWS Secrets Manager', Mockery::on(
+                    fn ($context) => ($context['exception'] ?? null) instanceof JsonException
+                        && $context['exception']->getMessage() === 'Syntax error'
+                ));
+        }
     }
 
     public function test_it_rethrows_exception_in_get_secret_value()
@@ -263,10 +289,22 @@ d7nPMO+TnbKtLC3wkv4ycJECAwEAAQ==
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('some-message');
 
+        Log::spy();
+
         $this->mock('overload:Aws\SecretsManager\SecretsManagerClient', function (MockInterface $mock) {
             $mock->shouldReceive('listSecrets')->once()->andReturn(['SecretList' => [['ARN' => 'example-arn']]]);
             $mock->shouldReceive('getSecretValue')->once()->andThrow(new Exception('some-message'));
         });
-        ConfigSecretsServiceProvider::updateConfiguration(app());
+
+        try {
+            ConfigSecretsServiceProvider::updateConfiguration(app());
+        } finally {
+            Log::shouldHaveReceived('alert')
+                ->once()
+                ->with('Error retrieving secret value from AWS Secrets Manager', Mockery::on(
+                    fn ($context) => ($context['exception'] ?? null) instanceof Exception
+                        && $context['exception']->getMessage() === 'some-message'
+                ));
+        }
     }
 }
