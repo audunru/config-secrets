@@ -1,3 +1,10 @@
+## [8.0.1](https://github.com/audunru/config-secrets/compare/v8.0.0...v8.0.1) (2026-11-13)
+
+
+### Bug Fixes
+
+* log exceptions under the exception context key ([#134](https://github.com/audunru/config-secrets/issues/134)) ([af57bf9](https://github.com/audunru/config-secrets/commit/af57bf9f6b527269df09c7a5ef995d2cec32acd3))
+
 # [8.0.0](https://github.com/audunru/config-secrets/compare/v7.1.0...v8.0.0) (2026-11-13)
 
 
