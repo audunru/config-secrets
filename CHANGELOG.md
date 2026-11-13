@@ -1,3 +1,15 @@
+# [8.0.0](https://github.com/audunru/config-secrets/compare/v7.1.0...v8.0.0) (2026-11-13)
+
+
+* fix!: use per-environment AWS options in AwsSecretsManager ([c1223e7](https://github.com/audunru/config-secrets/commit/c1223e7e03c36d45815137c3156cd30fb2a636a3))
+
+
+### BREAKING CHANGES
+
+* AwsSecretsManager no longer reads config-secrets.providers.aws.*
+in its constructor. getSecrets() now takes the region, secret name, tag key and
+tag value as arguments.
+
 # [7.1.0](https://github.com/audunru/config-secrets/compare/v7.0.0...v7.1.0) (2026-05-25)
 
 
