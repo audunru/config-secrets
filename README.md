@@ -10,7 +10,7 @@ As an example, you could store your database password in AWS Secrets Manager ins
 # Migration guides
 
 - [v1 to v2](docs/v1-v2-migration.md)
-- [v2 to v3](docs/v2-v3-migration.md)
+- [v7 to v8](docs/v7-v8-migration.md)
 
 # Installation
 
