@@ -25,44 +25,18 @@ class AwsSecretsManager
     protected const JSON_DECODE_DEPTH = 2;
 
     /**
-     * Only secret with this name will be retrieved.
-     */
-    protected string $secretName;
-
-    /**
-     * Only secrets tagged with this key will be retrieved.
-     */
-    protected string $tagKey;
-
-    /**
-     * Only secrets tagged with this value will be retrieved.
-     */
-    protected string $tagValue;
-
-    /**
-     * AWS client.
-     */
-    protected SecretsManagerClient $client;
-
-    public function __construct()
-    {
-        $this->secretName = config('config-secrets.providers.aws.secret-name', '');
-        $this->tagKey = config('config-secrets.providers.aws.tag-key', '');
-        $this->tagValue = config('config-secrets.providers.aws.tag-value', '');
-        $this->client = new SecretsManagerClient([
-            'version' => self::AWS_VERSION,
-            'region' => config('config-secrets.providers.aws.region'),
-        ]);
-    }
-
-    /**
      * Retrieve secrets from AWS Secrets Manager.
      */
-    public function getSecrets(): Collection
+    public function getSecrets(?string $region, ?string $secretName = null, ?string $tagKey = null, ?string $tagValue = null): Collection
     {
+        $client = new SecretsManagerClient([
+            'version' => self::AWS_VERSION,
+            'region' => $region,
+        ]);
+
         try {
-            ['SecretList' => $secretList] = $this->client->listSecrets([
-                'Filters' => $this->getFilters(),
+            ['SecretList' => $secretList] = $client->listSecrets([
+                'Filters' => $this->getFilters($secretName, $tagKey, $tagValue),
                 'MaxResults' => self::MAX_SECRETS,
             ]);
         } catch (Exception $exception) {
@@ -71,9 +45,9 @@ class AwsSecretsManager
         }
 
         return collect($secretList)
-            ->flatMap(function ($secret) {
+            ->flatMap(function ($secret) use ($client) {
                 try {
-                    ['SecretString' => $secretString] = $this->client->getSecretValue([
+                    ['SecretString' => $secretString] = $client->getSecretValue([
                         'SecretId' => $secret['ARN'],
                     ]);
 
@@ -91,26 +65,26 @@ class AwsSecretsManager
     /**
      * Get filters to be used with the listSecrets() function.
      */
-    private function getFilters(): array
+    private function getFilters(?string $secretName, ?string $tagKey, ?string $tagValue): array
     {
         $filters = [];
 
-        if (! empty($this->secretName)) {
+        if (! empty($secretName)) {
             $filters[] = [
                 'Key' => 'name',
-                'Values' => [$this->secretName],
+                'Values' => [$secretName],
             ];
         }
 
-        if (! empty($this->tagKey) && ! empty($this->tagValue)) {
+        if (! empty($tagKey) && ! empty($tagValue)) {
             array_push($filters,
                 [
                     'Key' => 'tag-key',
-                    'Values' => [$this->tagKey],
+                    'Values' => [$tagKey],
                 ],
                 [
                     'Key' => 'tag-value',
-                    'Values' => [$this->tagValue],
+                    'Values' => [$tagValue],
                 ]);
         }
 
