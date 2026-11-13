@@ -42,4 +42,4 @@ Tests in `tests/Unit/` extend `Orchestra\Testbench\TestCase` directly (there is 
 - Pagination of `listSecrets` is not implemented; only the first 100 secrets are used.
 - The `base64:` prefix is for multiline values such as PEM keys (see `test_configuration_overrides_supports_base64`).
 - `docs/v1-v2-migration.md` documents the v1 → v2 config format change.
-- `docs/v2-v3-migration.md` documents the v2 → v3 change: per-environment AWS options and the new `getSecrets()` signature.
+- `docs/v7-v8-migration.md` documents the v7 → v8 change: per-environment AWS options and the new `getSecrets()` signature.
