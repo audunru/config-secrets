@@ -4,6 +4,7 @@ namespace audunru\ConfigSecrets\Tests\Unit;
 
 use audunru\ConfigSecrets\ConfigProviders\ArrayConfigProvider;
 use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
+use audunru\ConfigSecrets\Services\UpdateConfiguration;
 use Illuminate\Support\Facades\Log;
 use Mockery;
 use Orchestra\Testbench\TestCase;
@@ -13,6 +14,8 @@ class ArrayConfigProviderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        UpdateConfiguration::flush();
 
         config([
             'logging.default' => 'stack',

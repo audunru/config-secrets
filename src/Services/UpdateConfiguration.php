@@ -9,6 +9,19 @@ use Illuminate\Support\Arr;
 class UpdateConfiguration
 {
     /**
+     * Configuration supplied by each provider in the current PHP process.
+     */
+    private static array $cache = [];
+
+    /**
+     * Clear the configuration kept in memory for the current PHP process.
+     */
+    public static function flush(): void
+    {
+        self::$cache = [];
+    }
+
+    /**
      * Update configuration.
      */
     public function __invoke(): void
@@ -27,8 +40,17 @@ class UpdateConfiguration
 
             $providerOptions = $this->getProviderOptions($providerName);
             $mergedOptions = array_replace_recursive($providerOptions, $options);
+            $cacheKey = $providerName.':'.md5(serialize($mergedOptions));
+
+            if (array_key_exists($cacheKey, self::$cache)) {
+                $this->updateConfiguration(self::$cache[$cacheKey]);
+
+                continue;
+            }
+
             $provider = $this->getProvider($providerName);
             $configuration = $this->resolveProvider($provider)->getConfiguration($mergedOptions);
+            self::$cache[$cacheKey] = $configuration;
 
             $this->updateConfiguration($configuration);
 
