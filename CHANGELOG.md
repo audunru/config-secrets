@@ -1,3 +1,10 @@
+# [8.1.0](https://github.com/audunru/config-secrets/compare/v8.0.1...v8.1.0) (2026-11-23)
+
+
+### Features
+
+* get the secrets one time for each PHP process ([#137](https://github.com/audunru/config-secrets/issues/137)) ([1104bba](https://github.com/audunru/config-secrets/commit/1104bba8728c956f1bee537bcd4fe3be1904fce5))
+
 ## [8.0.1](https://github.com/audunru/config-secrets/compare/v8.0.0...v8.0.1) (2026-11-13)
 
 
