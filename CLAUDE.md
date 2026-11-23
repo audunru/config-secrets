@@ -38,6 +38,7 @@ Tests in `tests/Unit/` extend `Orchestra\Testbench\TestCase` directly (there is 
 - Consumers must cache config (`php artisan config:cache`); otherwise AWS is called on every request. `updateConfiguration()` does nothing when the config is cached.
 - An environment entry that names a provider that is not in `providers` throws `Exception('No provider named ... exists')`.
 - `updateConfiguration()` runs only once per app instance (singleton guard). See `test_it_overrides_configuration_only_once` in `tests/Unit/AwsConfigProviderTest.php`.
+- `UpdateConfiguration` keeps each provider result in a static array for the PHP process (key: provider name + `md5(serialize($mergedOptions))`), so a second app in the same process (for example the fresh app in `config:cache`) does not fetch or log again. Each test class calls `UpdateConfiguration::flush()` in `setUp()`; see `tests/Unit/ProcessCacheTest.php`.
 - `AwsSecretsManager` reads no config. It gets its options from `AwsConfigProvider`, so environment options (`environments.<env>.aws.region` etc.) override the provider options.
 - Pagination of `listSecrets` is not implemented; only the first 100 secrets are used.
 - The `base64:` prefix is for multiline values such as PEM keys (see `test_configuration_overrides_supports_base64`).

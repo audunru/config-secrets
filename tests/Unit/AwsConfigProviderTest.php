@@ -4,6 +4,7 @@ namespace audunru\ConfigSecrets\Tests\Unit;
 
 use audunru\ConfigSecrets\ConfigProviders\AwsConfigProvider;
 use audunru\ConfigSecrets\ConfigSecretsServiceProvider;
+use audunru\ConfigSecrets\Services\UpdateConfiguration;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +18,8 @@ class AwsConfigProviderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        UpdateConfiguration::flush();
 
         config([
             'database.connections.mysql.password' => 'original-password',

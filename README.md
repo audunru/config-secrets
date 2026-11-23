@@ -90,6 +90,10 @@ Loading the secrets in `bootstrap/app.php` instead of in a service provider ensu
 
 It is _very important_ that you cache your Laravel configuration with `php artisan config:cache` or `php artisan optimize` when you use this package. If not, secrets will be retrieved for every request. This process is slow and costly!
 
+The values from each provider are kept in memory for the current PHP process, keyed on the provider name and its options. This way `php artisan config:cache` and `php artisan optimize` retrieve the secrets only once.
+
+In your own test suite, every test boots a new application in the same PHP process, so all tests use the values that the first test retrieved. If your tests mock or change a provider, call `audunru\ConfigSecrets\Services\UpdateConfiguration::flush()` in `setUp()` of your base `TestCase`, before `parent::setUp()`.
+
 # Alternatives
 
 [AWS Secrets Manager](https://github.com/TappNetwork/laravel-aws-secrets-manager)
